@@ -1,0 +1,77 @@
+% This is a sample document using the University of Minnesota, Morris, Computer Science
+% Senior Seminar modification of the ACM sig-alternate style to generate a simple annotated
+% bibliography. The idea is that this document is fairly short, consisting of a brief description
+% of your sources and how you intend to use them (or not). Most of the ``content'' of the
+% generated document comes from the bibliography file, including the notes field which will
+% provide the annotations.
+
+% See https://github.com/UMM-CSci/Senior_seminar_templates for more info and to make
+% suggestions and corrections.
+
+\documentclass{sig-alternate}
+
+\usepackage{url}
+
+\begin{document}
+
+% --- Author Metadata here ---
+%%% REMEMBER TO CHANGE THE SEMESTER AND YEAR AS NECESSARY
+\conferenceinfo{UMM CSci Senior Seminar Conference, December 2016}{Morris, MN}
+
+\title{Something about the Vehicle Routing Problem}
+
+\numberofauthors{1}
+
+\author{
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+\alignauthor
+Henry Fellows\\
+	\affaddr{Division of Science and Mathematics}\\
+	\affaddr{University of Minnesota, Morris}\\
+	\affaddr{Morris, Minnesota, USA 56267}\\
+	\email{fello056@morris.umn.edu}
+}
+
+\maketitle
+
+\begin{abstract}
+This paper discusses new approaches to solving the rich vehicle routing problem, which is essentially the field of slight modifications to the vehicle routing problem (VRP).
+\end{abstract}
+
+\section{Discussion of sources}
+
+I will focus on applications of AI and evolutionary computation methods to solve the VRP, and mention other interesting methods such as human-assisted routing.
+
+\subsection{Sources I expect to use (and how)}
+
+\begin{itemize}
+	\item The core papers I expect to cite are a 1959 paper by Danzig et al.~\cite{Danzig:1959} and a 2014 paper written by Caceres-Cruz et al~\cite{Caceres-Cruz:2014}. The first paper is the original formulation of the problem, which originated in a managment science journal. Caceres-Cruz, the second paper, is a recent and extensive summary of the rich vehicle routing problem which is the category of problems that are created by slight alterations to the VRP. Both of these sources provide background about the problem and summarize approaches to solving the VRP. 
+	\item One of the most common VRP variants is the Vehicle Routing Problem with Time Window (VRPTW). The VRPTW deals with the problem of serving a set of customers with given service time windows using a finite fleet of vehicles. I chose two papers that both use novel agent-based systems to build approximate solutions. Hackel 2009~\cite{Hackel:2009} uses an genetic algorithm inspired by bee colonies to solve the problem. The other paper, Leong 2006~\cite{Leong:2006}, describes a two-step agent based system that conducts an inital tour and then uses the information gathered to avoid cases where naive agents can degrade the peformance of the whole.
+	\item I chose the rest of the papers to cover more obscure (and arguably interesting) topics within the rich VRP. A dynamic VRP is described in deOliveira~\cite{deOliveira:2008}, where new nodes can be added or removed during service day. Vasirani 2008~\cite{Vasirani:2008} decentralized demonstrates a decentralized system of autonomous agents with well-defined utility functions can create fairly optimized routes. Finally Ben Ismail 2012~\cite{BenIsmail:2012} explains a hybrid approach that uses humans to suggest heuristics in an interactive process.
+\end{itemize}
+
+\subsection{Sources I doubt I'll use}
+
+\begin{itemize}
+	\item Well, as intriguingly titled as "Approximation Algorithms for Regret-bounded Vehicle Routing and Applications to Distance-constrained Vehicle Routing"~\cite{Friggstad:2014} is, the regret bound is both poorly named and boring. Regret is apparently a measure of the waiting time of a client relative to its shortest-path distance from the depot, the thought being that clients who are near the depot wouldn't appreciate being last on the route. The paper itself is fine, but I simply can't bring myself to care about or deeply explain their methods. VRP has no shortage of good papers, and I am not desperate for sources.
+\end{itemize}
+
+% The following two commands are all you need to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+% annotated_bibliography.bib is the name of the BibTex file containing 
+% all the bibliography entries for this example. Note that you *don't* include the .bib ending
+% in the \bibliography command.
+\bibliography{annotated_bibliography}  
+
+% You must have a ".bib" file and remember to run:
+%     pdflatex bibtex pdflatex pdflatex
+% in order to see all the citation references correctly.
+
+\end{document}
+
+
