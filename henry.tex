@@ -80,12 +80,39 @@ VRP
 
 \section{Agent-based models and Probability Collectives}
 \label{sec:not this section.}
-Many problems in the rich vehicle routing category feature decentralized control, where each truck is modeled has having an independent agent who makes decisions out of self-interest. These decisions are often sub-optimal from the perspective of global optimization, and finding methods that allow for both autonomy and global utility is an ongoing research question. We have chosen to discuss two major approaches in modeling individuals - Agent-based models, the more traditional approach, and probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
+Many problems in the rich vehicle routing category feature decentralized control, where each truck or depot is modeled as having an independent agent who makes decisions out of self-interest. These decisions are often sub-optimal from the perspective of global optimization, and finding methods that allow for both autonomy and global utility is an ongoing research question. We have chosen to discuss two major approaches in modeling individuals - Agent-based models, the more traditional approach, and probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
 \subsection{Agent-based models}
 \label{ssec:agents}
+Agents are simply small decision making elements that typically have some internal state and the ability to make decisions based on this internal state. In optimization, a typical goal is for an agent to attempt to achieve some sort of optimal state. Agents (should) take actions to improve their state, and we describe this as the agent acting in its own interest. The function that returns the quantification of this local optimization is termed the local utility function, in contrast to the global, or system utility function. The global utility function describes how optimal the system is, which can be quite different from the local utility. In terms of the RVRP, the agent - usually a truck - attempts to find the best route possible without degrading the routes of other trucks. For example, it's possible to imagine a situation where a highly optimal set of destinations exists (with high local utility), but that if any truck were to choose it, that the remaining possible routes would be much less optimal (decreasing global utility).
 
 \subsection{Probability Collectives}
 \label{ssec:PC}
+Probability Collectives (PC) is a formalism that shows game theory and statistical physics are identical in terms of information theory. Instead of attempting to evolve an exemplary individual in a population in the method of genetic/memetic algorithms, probability collectives selects optimal strategy for each agent. A PC agent is a self-interested, learning individual that desires to optimize it's own, local reward, while also optimizing the global, or system objectives. By including an inherent concern for the global objective, PC enables these agents to create a good outcome at the global level.
+
+\subsubsection{Mechanics or something.}
+\hfcomment{fix name, also RVRP = Rich Vehicle Routing Problem (e.g routing problem + more)}
+The general form of PC in the context of VRP is as follows, along with the flowchart represented in figure 1.
+
+	Imagine you have $N$ trucks, each having a set $X$ of actions, of (potentially variable) length $m$. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. An action for truck $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that action. For each truck, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that action is signified by $q(X_i^{[r]})$. The truck then selects a random action $r$ and a sampling of random actions from other trucks. The resulting set, the 'combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, \hfcomment{something}. For each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
+	\begin{equation}
+	\textrm{Expected Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})*G(Y_i^{[r]})}
+	\end{equation}
+Where $q_i^r$ represents the probability of action $r$ for truck $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of actions. $G$ is problem specific, but in the RVRP it would be something like a measure of unused capacity or unvisited destinations. After computing the local utility, the next step is to update the probability of each action for all trucks as follows:
+	\begin{equation}
+	q(X_i^{[r]})<-q(X_i^{[r]}-\alpha_{Step}*q(X_i^{[r]}*k_{\textit{r update}}
+	\end{equation}
+where $k$ is the iteration, and
+	\begin{equation}
+	k_{\textit{r update}} = (\textit{contribution of Agent }i)/T+S_i(q)+ln(q(X_i^{[r]}))
+	\end{equation}
+\hfcomment{T, the Boltzmann's temperature might be $T(k)=T_0/ln(k)$, but I can't find any good reference.}
+
+and
+	\begin{equation}
+	\textit{contrib. of Agent }i = \textit{exp. utility of  Agent }i^r = \textit{exp. global utility}.
+	\end{equation}	
+\hfcomment{more to come once I understand it}
+
 
 \section{Human Assist (tagging)}
 \label{sec:humans}
