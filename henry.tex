@@ -8,6 +8,7 @@
 % suggestions and corrections.
 
 \documentclass{sig-alternate}
+
 \usepackage{color}
 \usepackage[colorinlistoftodos]{todonotes}
 
@@ -27,7 +28,7 @@
 %%% REMEMBER TO CHANGE THE SEMESTER AND YEAR AS NEEDED
 \conferenceinfo{UMM CSci Senior Seminar Conference, December 2015}{Morris, MN}
 
-\title{Modern Approaches to The (Rich?) Vehicle Routing Problem}
+\title{Modern Approaches to The Rich Vehicle Routing Problem}
 
 \numberofauthors{1}
 
@@ -59,61 +60,65 @@ VRP
 \hfcomment{Autonomous navigation is cool and important. Routing, being a part of Autonomous navigation, is a problem. It is hard. Good routing saves a lot of money and time.}
 \section{Introduction}
 \label{sec:intro}
-\hfcomment{Routing is cool and important, also Amazon prime, Uber, self driving cars, and mail. Routing is NP-hard and part of combinatorial optimization problems, which include things like the traveling salesman problem.}
+\hfcomment{Routing is cool and important, also Amazon prime, Uber, self driving cars, and mail.}
+The general case of routing is the traveling salesman problem. The traveling salesman problem asks for the shortest route which passes through each point once. Assuming that each pair of points is connected by a link, the number of potential routes is $0.5n!$, which grows extremely quickly, and is significant even for small values. For $n=6$, the number of routes reaches $20,160$. The traveling salesman problem is in a class of problems known as NP-complete. Although it has not yet been proven, it is considered likely that there is no algorithm for NP-complete problems that allows them to be solved quickly. Fortunately, solutions of NP-complete problems are easy to verify. In practice, the traveling salesman problem is to abstract for real-world routing problems, and so a variant was proposed that better represents the challenges of routing vehicles.
+
 \subsection{Routing in the real world}
 \label{ssec:real}
 \hfcomment{Definition of ye olde Vehicle Routing Problem. Also there are a lot of variants; here are the ones I can find good sources about most common ones (a bit of sarcasm; they are actually the most researched ones, at least recently. A variant with dynamic nodes was very popular pre-2006.)}
-\subsection{History of routing and problem?}
+Routing in the real world is often a complicated and messy affair. The vehicle has to have enough capacity for all of its deliveries, and often, customers expect that the vehicles arrive near a specified time. In some cases, the customer might not know how much of a product they need until the truck arrives. Dealing with these types of problems is the domain of the Vehicle Routing Problem.
 \section{The Vehicle Routing Problem}
 \label{sec:VRP}
-\hfcomment{Describe VRP in general terms, introduce RVRP.}
+Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959\cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet (or single truck) must make deliveries to as many customers as possible, starting from a specific location known as a depot\cite{Caceres-Cruz:2014} Alternatively, the vehicles may have to make multiple deliveries in order to satisfy all of the customers. Danzig and Ramser note that if the total capacity of the vehicles is less than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or multiple constraints simultaneously. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem (RVRP)\cite{Caceres-Cruz:2014}. In the following sections of, we discuss prominent variants of the RVRP.
 \subsection{Decentralized Vehicle Routing Problem}
 \hfcomment{It's agent flavored!}
+Many problems in the rich vehicle routing category feature decentralized control, where each truck or depot is modeled as having an independent agent who makes decisions out of self-interest. However, pure self-interest can cause decisions that degrade the solutions of others. Imagine a truck which finds a route that fulfills a large number of deliveries extremely quickly; other trucks might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first truck, it is less efficient for all other trucks. The ideal is to pursue optimal routes - both on the local or individual scale, and on a global scale. Finding other methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
 \subsection{Vehicle Routing Problem with Time Windows}
 \hfcomment{Deliveries during business hours only!}
-	
-\section{Approaches}
-\hfcomment{Generally, we use blackbox optimization, which is somewhat of a double-edged sword; it works well, and is computationally cheap(er), but it also does not produce any information about the data/problem it is working with. It is hard to gain insight into a problem given the output of a blackbox algorithm. This should maybe be a section for the following two items, but they're also the bulk (Guessing about 2/5ths) of my paper. Not sure what to do yet.}
+\subsection{Approaches}
+In general the approaches used to solve the VRP are approximate methods; they intend to find 'good', not perfect solutions. The algorithms tend to use simple rules to guess solutions, and the process of narrowing down or perfecting these guesses is known as optimization. \hfcomment{History, maybe?}. Most modern methods of solving the VRP belong to the blackbox style of optimization; blackbox optimization is used when a problem does not have a formal algebraic model, or the model is too computationally expensive. The VRP does have a model, but it is extremely computationally expensive to use it, and so the natural choice is to use these methods. Blackbox methods tend to use stochastic (random) elements, and it is often difficult to discern why the algorithm makes a specific decision.\hfcomment{Generally, we use blackbox optimization, which is somewhat of a double-edged sword; it works well, and is computationally cheap(er), but it also does not produce any information about the data/problem it is working with. It is hard to gain insight into a problem given the output of a blackbox algorithm. This should maybe be a section for the following two items, but they're also the bulk (Guessing about 2/5ths) of my paper. Not sure what to do yet.}
 
 \section{Genetic and Memetic Algorithms}
 \hfcomment{Of Memetic Algorithms: In general, the genetic algorithm improves the solution in large strokes, while the local optimization fine tunes the solutions generated by the GA.}
 
 \section{Agent-based models and Probability Collectives}
 \label{sec:not this section.}
-Many problems in the rich vehicle routing category feature decentralized control, where each truck or depot is modeled as having an independent agent who makes decisions out of self-interest. These decisions are often sub-optimal from the perspective of global optimization, and finding methods that allow for both autonomy and global utility is an ongoing research question. We have chosen to discuss two major approaches in modeling individuals - Agent-based models, the more traditional approach, and probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
+We have chosen to discuss two major approaches in modeling individuals. The first is agent-based models, the more traditional approach, and the second is probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
 \subsection{Agent-based models}
 \label{ssec:agents}
 Agents are simply small decision making elements that typically have some internal state and the ability to make decisions based on this internal state. In optimization, a typical goal is for an agent to attempt to achieve some sort of optimal state. Agents (should) take actions to improve their state, and we describe this as the agent acting in its own interest. The function that returns the quantification of this local optimization is termed the local utility function, in contrast to the global, or system utility function. The global utility function describes how optimal the system is, which can be quite different from the local utility. In terms of the RVRP, the agent - usually a truck - attempts to find the best route possible without degrading the routes of other trucks. For example, it's possible to imagine a situation where a highly optimal set of destinations exists (with high local utility), but that if any truck were to choose it, that the remaining possible routes would be much less optimal (decreasing global utility).
 
 \subsection{Probability Collectives}
 \label{ssec:PC}
-Probability Collectives (PC) is a formalism that shows game theory and statistical physics are identical in terms of information theory. Instead of attempting to evolve an exemplary individual in a population in the method of genetic/memetic algorithms, probability collectives selects optimal strategy for each agent. A PC agent is a self-interested, learning individual that desires to optimize it's own, local reward, while also optimizing the global, or system objectives. By including an inherent concern for the global objective, PC enables these agents to create a good outcome at the global level.
+Probability Collectives (PC) is a formalism that shows game theory and statistical physics are identical in terms of information theory\cite{Kulkarni:2008}. Instead of attempting to evolve an exemplary individual in a population in the method of genetic or memetic algorithms, probability collectives selects optimal strategy for each agent. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. By including an inherent concern for the global objective, PC enables these agents to create a good outcome at the global level.
 
 \subsubsection{Mechanics or something.}
 \hfcomment{fix name, also RVRP = Rich Vehicle Routing Problem (e.g routing problem + more)}
 The general form of PC in the context of VRP is as follows, along with the flowchart represented in figure 1.
 
-	Imagine you have $N$ trucks, each having a set $X$ of actions, of (potentially variable) length $m$. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. An action for truck $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that action. For each truck, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that action is signified by $q(X_i^{[r]})$. The truck then selects a random action $r$ and a sampling of random actions from other trucks. The resulting set, the 'combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, \hfcomment{something}. For each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
+	Imagine you have $N$ trucks, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often sequences of actions in RVRP applications\cite{Vasirani:2008}. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. A strategy for truck $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that strategy. For each truck, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that strategy is signified by $q(X_i^{[r]})$. The truck then selects a random action $r$ and a sampling of random actions from other trucks. The resulting set, the 'combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, represents a guess as to a potential future. Accordingly, for each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
 	\begin{equation}
-	\textrm{Expected Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})*G(Y_i^{[r]})}
+	\textrm{Expected Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})\cdot G(Y_i^{[r]})}
 	\end{equation}
-Where $q_i^r$ represents the probability of action $r$ for truck $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of actions. $G$ is problem specific, but in the RVRP it would be something like a measure of unused capacity or unvisited destinations. After computing the local utility, the next step is to update the probability of each action for all trucks as follows:
+Where $q_i^r$ represents the probability of action $r$ for truck $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of strategies. $G$ is problem specific, but in the RVRP it could be something like a measure of unused capacity or unvisited destinations. After computing the local utility, the next step is to update the probability of each action for all trucks as follows:
 	\begin{equation}
-	q(X_i^{[r]})<-q(X_i^{[r]}-\alpha_{Step}*q(X_i^{[r]}*k_{\textit{r update}}
+	q(X_i^{[r]})<-q(X_i^{[r]}-\alpha_{Step}\cdot q(X_i^{[r]})\cdot k_{\textit{r update}}
 	\end{equation}
 where $k$ is the iteration, and
 	\begin{equation}
-	k_{\textit{r update}} = (\textit{contribution of Agent }i)/T+S_i(q)+ln(q(X_i^{[r]}))
+	k_{\textit{r update}} = \dfrac{\textit{contrib. of Agent }i}{T}+S_i(q)+ln(q(X_i^{[r]}))
 	\end{equation}
-\hfcomment{T, the Boltzmann's temperature might be $T(k)=T_0/ln(k)$, but I can't find any good reference.}
-
-and
+Here, Boltzmann's temperature $T$  is a scalar that represents the importance of the of the contribution of agent $i$.
+\hfcomment{This is only the literal interpretation of $T$. It might also be $T(k)=T_0/ln(k)$, but I can't find any good reference.}
+The contribution of Agent $i$ is then:
 	\begin{equation}
-	\textit{contrib. of Agent }i = \textit{exp. utility of  Agent }i^r = \textit{exp. global utility}.
+	\textit{contrib. of Agent }i = \textit{exp. utility of Agent }i^r - \textit{exp. global utility}
 	\end{equation}	
-\hfcomment{more to come once I understand it}
-
-
+The $S_i(q)$ term is the entropy  of every agent's probability distribution. Entropy in the context of information theory is the expected value of the information in a message. As it increases, the probability distribution more clearly distinguishes the contribution of each strategy toward optimizing the expected global utility. Entropy is computed by:
+	\begin{equation}
+	S_i(q)=-\sum_{r=1}^{m_i}q(X_i^{[r]})\cdot ln(q(X_i^{[r]})
+	\end{equation}
+To summarize, if a strategy $r$ creates a larger contribution to the optimization of the objective than other strategies, the probability associated with $r$ increases by a larger amount. This entire process is repeated until the probability distribution converges or the maximum number of iterations are completed. The strategy with the highest probability is then returned. 
 \section{Human Assist (tagging)}
 \label{sec:humans}
 \hfcomment{'Humans are really good at visually identifying good routes and tagging them accordingly. Also, server time is expensive and Amazon's Mechanical Turk is cheap.'}
@@ -122,9 +127,11 @@ and
 \label{conclusion}
 
 \section{Acknowledgements}
-\hfcomment{Thanks to caffeine, water, and stress; the raw elements that formed this paper.}
+\hfcomment{I'd like to thank caffeine, water, and stress; the raw elements that formed this paper. Harris L. Mayer's 1964 paper, "Opacity Calculations, Past and Future" was a wonderful source of thematic inspiration.}
 
-\bibliography{henry}  
+\bibliographystyle{abbrv}
+\bibliography{annotated_bibliography}  
+
 % You must have a proper ".bib" file
 %  and remember to run:
 % latex bibtex latex latex
