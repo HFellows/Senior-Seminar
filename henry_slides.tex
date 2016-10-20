@@ -1,0 +1,227 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{CambridgeUS}
+  \setbeamercovered{transparent}
+}
+
+\usepackage{times}
+\usepackage[T1]{fontenc} 
+\usepackage{color}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{graphicx}
+\usepackage[]{algorithm2e}
+\usepackage{amssymb}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+\newcommand{\linespace}{\vskip 0.25cm}
+\definecolor{MyForestGreen}{rgb}{0,0.7,0} 
+\definecolor{Teal}{RGB}{2,132,130}
+\newcommand{\allcomments}[1]{{#1}}
+\newcommand{\hfcomment}[1]{\textcolor{Teal}{\allcomments{Henry: {#1}}}}
+
+
+\title[Rich Vehicle Routing Problem]{Modern Approaches to The Rich Vehicle Routing Problem}
+% Sub-titles are optional - uncomment and edit the next line if you want one.
+% \subtitle{Why does sub-tree crossover work?} 
+\author[Fellows]{Henry F. R. Fellows}
+\institute[U of Minn, Morris]
+{
+  Division of Science and Mathematics \\
+  University of Minnesota, Morris \\
+  Morris, Minnesota, USA
+}
+% The text in square brackets is the short version of the date if you need that.
+\date[???] % (optional)
+{?? November 2016 \\ Computer Science Senior Seminar, Morris}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%\AtBeginSection[]{\begin{frame}<beamer>   \frametitle{Outline}    \tableofcontents[currentsection, hideothersubsections] \end{frame}}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%outline
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+% For a 20-25 minute senior seminar talk you probably want something like:
+% - Two or three major sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should probably be between
+%   15 and 30 frames, all told.
+
+\section{Routing in the real world}
+
+\begin{frame}
+\frametitle{Routing Irl!}
+	\begin{itemize}
+		\item The Post Office does routing!	
+		\item Uber does routing!
+		\item Routing is expensive!
+	\end{itemize}
+\end{frame}
+
+\section{The Vehicle Routing Problem}
+
+\begin{frame}
+\frametitle{Traveling Salesman}
+\end{frame}
+
+\begin{frame}
+\frametitle{Vehicle Routing Problem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Rich Vehicle Routing Problem}
+\end{frame}
+
+
+\subsection{Decentralized Vehicle Routing Problem}
+
+\begin{frame}
+\frametitle{Decentralized Vehicle Routing Problem}
+\end{frame}
+
+\subsection{Vehicle Routing Problem with Time Windows}
+
+\begin{frame}
+\frametitle{Vehicle Routing Problem with Time Windows}
+\end{frame}
+
+\section{Genetic and Memetic Algorithms} 
+
+\begin{frame}
+\frametitle{Genetic Algorithms I}
+\end{frame}
+
+\begin{frame}
+\frametitle{Genetic Algorithms II}
+\end{frame}
+
+\begin{frame}
+\frametitle{Memetic Algorithms}
+\end{frame}
+
+\subsection{Hybrid Genetic Search with Advanced Diversity Control}
+
+\begin{frame}
+\frametitle{Hybrid Genetic Search with Advanced Diversity Control}
+\end{frame}
+
+\begin{frame}
+\frametitle{The algorithm, approximately.}
+\scalebox{.5}{
+\begin{algorithm}[H]
+Initialize population\;
+\While{number of interactions without improvement $< lt_{NI}$, and time $< T_{max}$}{
+	Select parent solutions $P_1$ and $P_2$\;
+	Create offspring $C$ from $P_1$ and $P_2$ (crossover)\;
+	Educate $C$ (local search procedure)\;
+	\If{$C$ infeasible}{
+		Insert $C$ into infeasible subpopulation\;
+		Repair with probability $P_rep$\;
+	}
+	\If{$C$ feasible}{
+		Insert $C$ into feasible subpopulation\;
+	}
+	\If{maximum subpopulation size reached}{
+		Select survivors\;
+	}
+	\If{best solution not improved for $It_{div}$ iterations}{
+		Diversify population\;
+	}
+		Adjust penalty parameters for infeasibility\;
+	\If{number of iterations $= k \times It_{dec}$ where $k \in \mathbb{N}$}{
+		\hfcomment{k made up of natural numbers?}\;
+		Decompose the master problem\;
+		Use HGSADC on each subproblem\;
+		Reconstitute three solutions, and insert them in the
+		population\;
+	}
+}
+\Return best feasible solution\;
+\end{algorithm}}
+
+Explanatory notes go here.
+\end{frame}
+
+\subsection{Another genetic algorithm-y technique}
+
+\begin{frame}
+\frametitle{Might not include in paper}
+\end{frame}
+
+
+\section{Agent-based models and Probability Collectives}
+
+\subsection{Agent-based models}
+
+\begin{frame}
+\frametitle{Agents!}
+\end{frame}
+
+\subsection{Distributed Reverse Vickrey Auction Routing}
+
+\begin{frame}
+\frametitle{Reverse Vickrey Auction}
+\end{frame}
+
+\begin{frame}
+\frametitle{Distributed RVA routing Algorithm}
+\end{frame}
+
+\subsection{Probability Collectives}
+
+\begin{frame}
+\frametitle{Probability Collectives}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Probability Collectives Algorithm I}
+\end{frame}
+
+\begin{frame}
+\frametitle{Probability Collectives Algorithm II}
+\end{frame}
+
+\section{Human Assisted Routing}
+
+\begin{frame}
+\frametitle{Human Assisted Routing}
+\end{frame}
+
+\section{Conclusions}
+
+\begin{frame}
+\frametitle{Routing Irl!}
+	\begin{itemize}
+		\item The HGSADC is the best.	
+		\item Probability Collectives is best distributed system.
+		\item Humans are still better than computers at guessing.
+		\item Challenges remain in  routing with dynamic constraints.
+	\end{itemize}
+\end{frame}
+
+%columns
+\begin{frame}
+  \frametitle{Column Example}
+  \begin{columns}
+  \begin{column}{.65\textwidth}
+Same genome can lead to different physical structures or behavior depending on environmental factors.
+  \end{column}
+  \end{columns}
+\end{frame}
+
+
+
+\end{document}
