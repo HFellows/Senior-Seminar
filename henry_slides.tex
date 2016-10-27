@@ -118,7 +118,7 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{The algorithm, approximately.}
+\frametitle{The algorithm.}
 \scalebox{.5}{
 \begin{algorithm}[H]
 Initialize population\;
@@ -140,8 +140,7 @@ Initialize population\;
 		Diversify population\;
 	}
 		Adjust penalty parameters for infeasibility\;
-	\If{number of iterations $= k \times It_{dec}$ where $k \in \mathbb{N}$}{
-		\hfcomment{k made up of natural numbers?}\;
+	\If{number of iterations $\textrm{modulo } It_{dec} = 0 $}{
 		Decompose the master problem\;
 		Use HGSADC on each subproblem\;
 		Reconstitute three solutions, and insert them in the
@@ -150,8 +149,6 @@ Initialize population\;
 }
 \Return best feasible solution\;
 \end{algorithm}}
-
-Explanatory notes go here.
 \end{frame}
 
 \subsection{Another genetic algorithm-y technique}

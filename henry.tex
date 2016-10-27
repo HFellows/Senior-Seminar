@@ -57,15 +57,14 @@ Henry F. R. Fellows\\
 
 The Rich Vehicle Routing Problem is a class of problems that revolve around finding the most optimal route for a certain set of deliveries. Obtaining approximate solutions to these computationally hard problems is both economically valuable and \hfcomment{academically interesting?}. Despite a long history of research in the field, new methods and approaches to specific subproblems are frequently introduced. This paper summarizes the problem, its applications, recent algorithms and approaches.
 
+
 \end{abstract}
 
-\keywords{Vehicle Routing Problem, Black-box optimization, Genetic Algorithms, Probability Collectives, Distributed Systems, \hfcomment{\& more - user interfaces, }}
+\keywords{Vehicle Routing Problem, Black-box optimization, Genetic Algorithms, Probability Collectives, Distributed Systems, \hfcomment{Reviewers! skip to the end to read notes!}
 
 \section{Introduction}
 \label{sec:intro}
-\hfcomment{Routing is cool and important, also Amazon prime, Uber, self driving cars, and mail.}
-
-Routing is a deeply pervasive feature of the modern world. From the point-to-point navigation of everyday driving to the shipping of bulk freight, the task of creating those routes has been increasingly automated. The long term trend towards self-driving vehicles means that computers will soon control the entire process of transportation; aside from selecting a departure and destination, humans need no longer be involved. Software to create routes for school buses, mail deliveries and garbage trucks have been in use for decades; everything from Amazon to Uber uses these systems on a daily basis. The problem of finding efficient routes quickly is still an ongoing problem in the real world. The exact impact of improvements in routing is difficult to measure, but in 2011, the external costs of traffic jams in the EU were 1-2\% of GDP\cite{Caceres-Cruz:2014}. A small improvement - say five percent - in routing efficiency represents a staggering amount of money. The general case of routing is the traveling salesman problem. The traveling salesman problem asks for the shortest route which passes through each point once. Assuming that each pair of points is connected by a link, the number of potential routes is $0.5n!$, which grows extremely quickly, and is significant even for small values. For $n=6$, the number of routes reaches $20,160$. The traveling salesman problem is in a class of problems known as NP-complete. Although it has not yet been proven, it is considered likely that there is no algorithm for NP-complete problems that allows them to be solved quickly. Fortunately, solutions of NP-complete problems are easy to verify. In practice, the traveling salesman problem is too abstract for real-world routing problems, and so a variant was proposed that better represents the challenges of routing vehicles.
+Routing is a deeply pervasive feature of the modern world. From the point-to-point navigation of everyday driving to the shipping of bulk freight, the task of creating those routes has been increasingly automated. The long term trend towards self-driving vehicles means that computers will soon control the entire process of transportation; aside from selecting a departure and destination, humans need no longer be involved. Software to create routes for school buses, mail deliveries and garbage trucks have been in use for decades; everything from Amazon to Uber uses these systems on a daily basis. The problem of finding efficient routes quickly is still an ongoing problem in the real world. The exact impact of improvements in routing is difficult to measure, but in 2011, the external costs of traffic jams in the EU were 1-2\% of GDP\cite{Caceres-Cruz:2014}. A small improvement - say five percent - in routing efficiency represents a staggering amount of money. The general case of routing is the traveling salesman problem. The traveling salesman problem asks for the shortest route which passes through each point once. Assuming that each pair of points is connected by a link, the number of potential routes is $\tfrac{1}{2}n!$, which grows extremely quickly, and is significant even for small values. For $n=10$, the number of routes reaches $1814400$. The traveling salesman problem is in a class of problems known as NP-complete. Although it has not yet been proven, it is considered likely that there is no algorithm for NP-complete problems that allows them to be solved quickly. Fortunately, solutions of NP-complete problems are easy to verify. In practice, the traveling salesman problem is too abstract for real-world routing problems, and so a variant was proposed that better represents the challenges of routing vehicles.
 
 \subsection{Routing in the real world}
 \label{ssec:real}
@@ -86,6 +85,13 @@ Originally titled the Truck Dispatching Problem, the original formulation of the
 Many problems in the rich vehicle routing category feature decentralized control\cite{Caceres-Cruz:2014}, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest. However, pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding other methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
 \subsection{Vehicle Routing Problem with Time Windows}
 \hfcomment{Deliveries during business hours only!}
+\hfcomment{Filler to get the figures to fit correctly.}\\
+THE studio was filled with the rich odour of roses, 
+and when the light summer wind stirred amidst 
+the trees of the garden, there came through the open 
+door the heavy scent of the lilac, or the more delicate 
+perfume of the pink-flowering thorn. 
+
 From the corner of the divan of Persian saddle- 
 bags on which he was lying, smoking, as was his 
 custom, Innumerable cigarettes, Lord Henry Wotton 
@@ -111,27 +117,16 @@ In general the approaches used to solve the VRP are approximate methods; they in
 \hfcomment{Maybe: The preference for blackbox methods may be a reflection of the difficulty in finding/improving [non-guessing] algorithms (or, perhaps equivalently, of the inherent computational limitations of calculating a perfect answer to the VRP)}
 
 \section{Genetic and Memetic Algorithms}
-\hfcomment{Explain local search}
-\hfcomment{Of Memetic Algorithms: In general, the genetic algorithm improves the solution in large strokes, while the local optimization fine tunes the solutions generated by the GA. GAs are cool too, and the HGSADC is a pretty spiffy algorithm}
-From the corner of the divan of Persian saddle- 
-bags on which he was lying, smoking, as was his 
-custom, Innumerable cigarettes, Lord Henry Wotton 
-could just catch the gleam of the honey-sweet and 
-honey-coloured blossoms of a laburnum, whose 
-tremulous branches seemed hardly able to bear the 
-burden of a beauty so flame-like as theirs ; and 
-now and then the fantastic shadows of birds in 
-flight flitted across the long tussore-silk curtains 
-that were stretched in front of the huge window, 
-producing a kind of momentary Japanese effect, 
-and making him think of those pallid jade-faced 
-painters of Tokio who, through the medium of an 
-art that is necessarily immobile, seek to convey the 
-sense of swiftness and motion. The sullen murmur 
-of the bees shouldering their way through the long 
-unmown grass, or circling with monotonous insistence 
-round the dusty gilt horns of the straggling woodbine, 
-seemed to make the stillness more oppressive.
+\hfcomment{Explain local search}\\
+\hfcomment{Explain genetic algorithms}\\
+\hfcomment{Explain memetic algorithms}\\
+\hfcomment{Of Memetic Algorithms: In general, the genetic algorithm improves the solution in large strokes, while the local optimization fine tunes the solutions generated by the GA. }\\
+\hfcomment{Filler to get the figures to fit correctly.}\\
+THE studio was filled with the rich odour of roses, 
+and when the light summer wind stirred amidst 
+the trees of the garden, there came through the open 
+door the heavy scent of the lilac, or the more delicate 
+perfume of the pink-flowering thorn. 
 
 From the corner of the divan of Persian saddle- 
 bags on which he was lying, smoking, as was his 
@@ -151,11 +146,22 @@ sense of swiftness and motion. The sullen murmur
 of the bees shouldering their way through the long 
 unmown grass, or circling with monotonous insistence 
 round the dusty gilt horns of the straggling woodbine, 
-seemed to make the stillness more oppressive.
+seemed to make the stillness more oppressive. The
+dim roar of London was like the bourdon note of a 
+distant organ. 
+
+In the centre of the room, clamped to an upright 
+easel, stood the full-length portrait of a young man 
+of extraordinary personal beauty, and in front of it, 
+some little distance away, was sitting the artist him- 
+self, Basil Hallward, whose sudden disappearance 
+some years ago caused, at the time, such public 
+excitement, and gave rise to so many strange con- 
+jectures. 
 
 \subsection{Human Assisted Routing}
 \label{sec:humans}
-\hfcomment{Move here? Uses a GA as base algorithm, is a memetic algorithm uses local search}
+\hfcomment{Not sure if it belongs here or in own sesection. Uses a GA as base algorithm.}
 
 \begin{figure}
 \centering
@@ -168,23 +174,27 @@ seemed to make the stillness more oppressive.
 Humans tend to be very good at solving visual problems, and this extends to the routing if the problem is displayed appropriately. We have a talent for deciding whether a given route is good or bad by simply looking at a diagram. Amazon's mechanical turk and similar platforms were created to allow developers to make use of human intelligence in solving computationally complex problems. Pursuing the approach of using humans to do things humans are good at anyways, S. Ismail, F. Legras and G. Coppin\cite{Ismail:2012} created a genetic algorithm that uses humans to determine how good a particular solution is. 
 
 \subsubsection{Interactive Genetic Algorithm for the VRP}
+
+
 \title{Hybrid Genetic Search with Advanced Diversity Control}
 \begin{algorithm}
 Initialize population\;
-\While{number of interactions without improvement $< lt_{NI}$, and time $< 			T_{max}$}{
-	Genetic algorithm go!
-	Human selection go!
-	Good tagging 
-	- higher selection probability
-	- mutation operator not allowed
-	Bad tagging
-	- lower selection probability
-	- mutation operator encouraged
-	Standard heuristic function
-}
+\While{number of interactions without improvement $< lt_{NI}$, and time $< T_{max}$}{
+	Coherent algorithm goes here!\;
+	Genetic algorithm stuff!\;
+	Human selection suff!\;
+	If good tags \;
+	- higher selection probability\;
+	- mutation operator not allowed\;
+	If bad tags\;
+	- lower selection probability\;
+	- mutation operator encouraged\;
+	Standard heuristic function\;
+	Crossover\;
+	}
 \Return best feasible solution\;
 \end{algorithm}
- 
+\hfcomment{describe in words, reference image}
 \subsection{Hybrid Genetic Search with Advanced Diversity Control}
 Adding time window constraints to customer demand and depot availability poses a significant challenge, especially in relation to the smaller proportion of solutions and the increased computational complexity caused by the increased search space. The opposing demands of temporal and spatial constraints is a particularly frustrating problem in the VRPTW.
 
@@ -224,117 +234,96 @@ Initialize population\;
 }
 \Return best feasible solution\;
 \end{algorithm}
-\hfcomment{Algorithm-figure goes here eventually.}
-HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. Two parents are selected by a fitness function \hfcomment{binary tournament} iteratively applied to the (both!) population, and then a crossover operator creates an child. A local search is then applied to the child, and then may be repaired \hfcomment{explain or skip} and placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered \hfcomment{explain...}. A diversification round may be started if there has been $It_{div}$ iterations without improvement. \hfcomment{to be cont, pending decisions on what to gloss over.} 
-
-\subsection{Adaptive Memetic Algorithms}
-\hfcomment{Section may be removed}
+\hfcomment{Don't even bother reading this. It's more or less notes as I struggle through this.}
+HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. Two parents are selected by a fitness function \hfcomment{binary tournament} iteratively applied to (both!) populations, and then a crossover operator creates an child. A local search is then applied to the child, and then may be repaired \hfcomment{explain} and placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered \hfcomment{explain}. A diversification round may be started if there has been $It_{div}$ iterations without improvement. \hfcomment{to be cont, pending decisions on what to gloss over.} 
 
 \section{Agent-based models}
 Agents are simply small decision making elements that typically have some internal state and the ability to make decisions based on this internal state. In optimization, a typical goal is for an agent to attempt to achieve some sort of optimal state. Agents (should) take actions to improve their state, and we describe this as the agent acting in its own interest. The function that returns the quantification of this local optimization is termed the local utility function, in contrast to the global, or system utility function. The global utility function describes how optimal the system is, which can be quite different from the local utility. 
-\hfcomment{Make up definition? Agents are very poorly defined. ``A set of agents, with a function f(x) that change their internal state, based on external state. They may change external state as well."}
+\hfcomment{Make up definition? Agents are very poorly defined in literature.}
 We have chosen to discuss two major approaches in modeling individuals for the decentralized VRP. The first is agent-based models, the more traditional approach, and the second is probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
 
 \subsection{Distributed reverse Vickrey auctions}
 
-Saleh et al.\cite{Saleh:2012} were examining a version of the DCVRP where each depot and customer are treated as agents. The authors were interested in designing a system that encouraged near-optimal solutions while still being completely self-interested. They pursued this by building mechanisms that encouraged depots to offer an accurate estimate of minimum costs while still allowing the cost functions of each depot to remain private. \hfcomment{reverse vickrey auction}
+Saleh et al.\cite{Saleh:2012} were examining a version of the DCVRP where each depot and customer are treated as agents. The authors were interested in designing a system that encouraged near-optimal solutions while still being completely self-interested. They pursued this by building mechanisms that encouraged depots to offer an accurate estimate of minimum costs while still allowing the cost functions of each depot to remain private. \hfcomment{neat reverse vickrey auction info goes here once I understand game theory.}
 
 \subsubsection{The Distributed RVA Routing Algorithm}
-There is a set $D$ of $m$ agent depots; each depot, $k$, has $N_k$ vehicles with total capacity $q_k^i$. Each vehicle is denoted $i_k^1 ... i_k^{N_k}$, and assigned to route $r_i^k$. The number of vehicles, capacity, and the cost function are private to each depot. The set of customers is $C$, and a single customer is $z$, which has a demand $d_z$ that can be served only by one vehicle. This information is public to all depots.
 
-For every customer $j$, we estimate the additional cost that results from adding $j$ to the customers served by depot $k$, for each depot $k$ such that $q_k^i \geq d_z$. The least additional cost $dc_k$ is obtained using an approximate solution.
+\hfcomment{Maybe add very short pseudocode.}
 
-Then, find the depot $k$ with the lowest $dc_k$, and add the customer to $r_k$, the route indicated by the method of estimating the least additional cost. The routes of depot $k$ can be optimized by applying an exact solution to the VRP to the order of the list of nodes in each route.
-Finally, the capacity of depot $k$ is updated to the sum of $q_k^i-d_j$.
-
-\hfcomment{Alternatively:}
-
-Each depot $k$ submits a bid to each unassigned customer $j$ where $q_k^i \geq d_z$. Bids consist of the estimated costs of servicing the customer. The customer chooses the lowest bid satisfying their demands and notifies $k^*$. The depot $k^*$ may receive responses from other customers. From the given responses, the depot chooses the customer $j^*$ with the lowest insertion cost (the customer whose addition to  the vehicle's route will cause the least change  in the routing cost). Once the customer is assigned to a depot, the customer $j^*$ submits payment to depot $k^*$. The payment is equal to the second lowest offer of the game. This, combined with the fact that bids are sealed, encourages depots to provide the lowest possible rate (because if they win, they are still paid more than the estimate). The completion of these steps is a single auction round, and many rounds may take place until every customer is assigned. Once the auction rounds are complete, the depot can apply other optimization strategies to it's routes, or in the case of small routes, an exact solution.
+The core feature of the algorithm is a reverse vickrey auction. Each depot $k$ submits a bid to each unassigned customer $j$ where $q_k^i \geq d_z$. Bids consist of the estimated costs of servicing the customer. The customer chooses the lowest bid satisfying their demands and notifies $k^*$. The depot $k^*$ may receive responses from other customers. From the given responses, the depot chooses the customer $j^*$ with the lowest insertion cost (the customer whose addition to  the vehicle's route will cause the least change  in the routing cost). Once the customer is assigned to a depot, the customer $j^*$ submits payment to depot $k^*$. The payment is equal to the second lowest offer of the game. This, combined with the fact that bids are sealed, encourages depots to provide the lowest possible rate (because if they win, they are still paid more than the estimate). The completion of these steps is a single auction round, and many rounds may take place until every customer is assigned. Once the auction rounds are complete, the depot can apply other optimization strategies to its routes, or in the case of small routes, an exact solution.
 
 \subsection{Probability Collectives}
 \label{ssec:PC}
-Probability Collectives (PC) %is a formalism that shows game theory and statistical physics are identical in terms of information theory\cite{Kulkarni:2008}.
-takes a different approach to selecting a good solution. Instead of attempting to evolve an exemplary individual in a population in the method of genetic or memetic algorithms, probability collectives selects optimal strategy for each agent\cite{Kulkarni:2008}. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. In contrast to the Distributed Reverse Vickrey Auction, the agents willingly and freely share information about their strategies, and the cost function is global.%By including an inherent concern for the global objective, PC enables these agents to create a good outcome at the global level.
+Probability Collectives (PC) takes a different approach to selecting a good solution. Instead of attempting to evolve an exemplary individual in a population in the method of genetic or memetic algorithms, probability collectives selects optimal strategy for each agent\cite{Kulkarni:2008}. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. In contrast to the Distributed Reverse Vickrey Auction, the agents willingly and freely share information about their strategies, and the cost function is global.
 
 \subsubsection{Mechanics of Probability Collectives}
-The general form of PC in the context of VRP is as follows, along with the flowchart below. Imagine you have $N$ vehicles, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often routes in RVRP applications\cite{Vasirani:2008}, but can sometime be as large as entire sets of routes or as small as individual actions. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. 
+The general form of PC in the context of VRP is as follows, along with the flowchart below. Imagine you have $N$ agents, which can be depots or trucks, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often routes in RVRP applications\cite{Vasirani:2008}, but can sometime be as large as entire sets of routes or as small as individual actions. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. 
 
-A strategy for vehicle $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that strategy. For each vehicle, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that strategy is signified by $q(X_i^{[r]})$. The vehicle then selects a random action $r$ and a sampling of random actions from other vehicles. The resulting set, the `combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, represents a guess as to a potential future. Accordingly, for each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
+A strategy for agent $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that strategy. For each agent, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that strategy is signified by $q(X_i^{[r]})$. The agents then selects a random action $r$ and a sampling of random actions from other agents. The resulting set, the `combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, represents a guess as to a potential future. Accordingly, for each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
 	\begin{equation}
-	\textrm{Expected Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})\cdot G(Y_i^{[r]})}
+	\textit{Exp. Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})\cdot G(Y_i^{[r]})}
 	\end{equation}
 Where $q_i^r$ represents the probability of action $r$ for vehicle $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of strategies. $G$ is problem specific, but in the RVRP it could be a measure of unused capacity, unvisited destinations, maximum tour length or various combinations of measurements.
 
-After computing the local utility, the next step is to update the probability of each action for all vehicles as follows:
+After computing the local utility, the next step is to update the probability of each action for all agents as follows:
 	\begin{equation}
-	q(X_i^{[r]})<-q(X_i^{[r]}-\alpha_{Step}\cdot q(X_i^{[r]})\cdot k_{\textit{r update}}
+	q(X_i^{[r]})<-q(X_i^{[r]})-\alpha_{Step}\cdot q(X_i^{[r]})\cdot k_r^{update}
 	\end{equation}
-where $k$ is the iteration, and
+	
+where $k$ is the iteration, $\alpha_{step}$ is a constant that controls the amount of change each step. Typical values range are around $0.98$. 
 	\begin{equation}
-	k_{\textit{r update}} = \dfrac{\textit{contrib. of Agent }i}{T}+S_i(q)+ln(q(X_i^{[r]}))
+	k_r^{update} = \dfrac{\textit{Contrib. of Agent }i}{T_k}+S_i(q)+ln(q(X_i^{[r]}))
 	\end{equation}
-Here, Boltzmann's temperature $T$  is a scalar that represents the importance of the of the contribution of agent $i$.
-\hfcomment{This is only the literal interpretation of $T$. It might also be $T(k)=T_0/ln(k)$, but I can't find any good reference.}
+	
+Here, temperature $T_k$ is a scalar that represents the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_k=T_0/ln(k)$, and $T_0$ is the initial temperature. A example value might be $30$.
+\hfcomment{So, the PC papers reference an $\alpha_{T}$, which might be jammed in the numerator to add a rate control. Might just skip.}
 The contribution of Agent $i$ is then:
 	\begin{equation}
-	\textit{contrib. Agent }i = \textit{exp. utility Agent }i^r - \textit{exp. global utility}
-	\end{equation}	
-The $S_i(q)$ term is the entropy  of every agent's probability distribution. Entropy in the context of information theory is the expected value of the information in a message. As it increases, the probability distribution more clearly distinguishes the contribution of each strategy toward optimizing the expected global utility. Entropy is computed by:
+	\textit{Contrib. Agent }i = \textit{Exp. Utility Agent }i^r - \textit{Exp. Global Utility}
+	\end{equation}
+	
+The $S_i(q)$ term is the entropy of the combined strategy set. In information theory, Entropy is the average value of the information in a message. Probability collectives treats the combined strategy set as a message in order to find the set with the highest Entropy. As it increases, the probability distribution more clearly distinguishes the contribution of each strategy toward optimizing the expected global utility. When it reaches a maximum, it represents the set that has the most information about the probabilities of each strategy. Entropy is computed by:
 	\begin{equation}
 	S_i(q)=-\sum_{r=1}^{m_i}q(X_i^{[r]})\cdot ln(q(X_i^{[r]})
 	\end{equation}
-To summarize, if a strategy $r$ creates a larger contribution to the optimization of the objective than other strategies, the probability associated with $r$ increases by a larger amount. This entire process is repeated until the probability distribution converges or the maximum number of iterations are completed. The strategy with the highest probability is then returned. 
+	
+Which is the sum of every strategy $q(X_i^{[r]})$ times the natural logarithm of itself. Here, the algorithm checks to see if it will continue updating the global utility or it will terminate. If the probabilities of the combined strategy set have not changed by a constant amount, $\sigma$, or if the number of iterations ($k$) have reached a maximum, the strategies with the highest probabilities will be returned. Otherwise, the algorithm will continue updating the combined strategy set.
+
+To summarize, if a strategy $r$ creates a larger contribution to the optimization of the objective than other strategies, the probability associated with $r$ increases by a larger amount. This entire process is repeated until the probability distribution converges or the maximum number of iterations are completed. 
 
 \begin{figure}
 \centering
 \includegraphics[width=2in, keepaspectratio]{"Probability Collectives Diagram".pdf}
 \caption{Probability Collectives Algorithm.}
-\hfcomment{THIS FIGURE IS GIVING ME AN ULCER.}
 \label{fig:PCDiagram}
 \end{figure}
 
 
 \section{Conclusion}
 \label{conclusion}
-From the corner of the divan of Persian saddle- 
-bags on which he was lying, smoking, as was his 
-custom, Innumerable cigarettes, Lord Henry Wotton 
-could just catch the gleam of the honey-sweet and 
-honey-coloured blossoms of a laburnum, whose 
-tremulous branches seemed hardly able to bear the 
-burden of a beauty so flame-like as theirs ; and 
-now and then the fantastic shadows of birds in 
-flight flitted across the long tussore-silk curtains 
-that were stretched in front of the huge window, 
-producing a kind of momentary Japanese effect, 
-and making him think of those pallid jade-faced 
-painters of Tokio who, through the medium of an 
-art that is necessarily immobile, seek to convey the 
-sense of swiftness and motion. The sullen murmur 
-of the bees shouldering their way through the long 
-unmown grass, or circling with monotonous insistence 
-round the dusty gilt horns of the straggling woodbine, 
-seemed to make the stillness more oppressive.
-
-From the corner of the divan of Persian saddle- 
-bags on which he was lying, smoking, as was his 
-custom, Innumerable cigarettes, Lord Henry Wotton 
-could just catch the gleam of the honey-sweet and 
-honey-coloured blossoms of a laburnum, whose 
-tremulous branches seemed hardly able to bear the 
-burden of a beauty so flame-like as theirs ; and 
-now and then the fantastic shadows of birds in 
-flight flitted across the long tussore-silk curtains 
-that were stretched in front of the huge window, 
-producing a kind of momentary Japanese effect, 
-and making him think of those pallid jade-faced 
-painters of Tokio who, through the medium of an 
-art that is necessarily immobile, seek to convey the 
-sense of swiftness and motion. The sullen murmur 
-of the bees shouldering their way through the long 
-unmown grass, or circling with monotonous insistence 
-round the dusty gilt horns of the straggling woodbine, 
-seemed to make the stillness more oppressive.
+\hfcomment{Filler to attempt to get the figures to fit correctly.}
+As the painter looked at the gracious and comely 
+form he had so skilfully mirrored in his art, a smile 
+of pleasure passed across his face, and seemed about 
+to linger there. But he suddenly started up, and, 
+closing his eyes, placed his fingers upon the lids, 
+as though he sought to imprison within his brain 
+some curious dream from which he feared he might 
+awake. 
+``It is your best work, Basil, the best thing you 
+have ever done," said Lord Henry, languidly. ``You 
+must certainly send it next year to the Grosvenor. 
+The Academy is too large and too vulgar. Whenever 
+I have gone there, there have been either so many 
+people that I have not been able to see the pictures, 
+which was dreadful, or so many pictures that I have 
+not been able to see the people, which was worse. 
+The Grosvenor is really the only place." 
+``I don't think I shall send it anywhere," he 
+answered, tossing his head back in that odd way 
+that used to make his friends laugh at him at Oxford. 
+``No : I won't send it anywhere."
+Lord Henry elevated his eyebrows and looked at him in amazement through the thin blue wreaths of smoke that curled up in such fanciful whorls from his heavy, opium-tainted cigarette. "Not send it anywhere? My dear fellow, why? Have you any reason? What odd chaps you painters are! You do anything in the world to gain a reputation. As soon as you have one, you seem to want to throw it away. It is silly of you, for there is only one thing in the world worse than being talked about, and that is not being talked about. A portrait like this would set you far above all the young men in England, and make the old men quite jealous, if old men are ever capable of any emotion."
 
 \section{Acknowledgements}
 I'd like to thank caffeine, water, and stress; the raw elements that formed this paper. Harris L. Mayer's 1964 paper, ``Opacity Calculations, Past and Future" was a wonderful source of thematic inspiration.
@@ -345,5 +334,7 @@ I'd like to thank caffeine, water, and stress; the raw elements that formed this
 %  and remember to run:
 % latex bibtex latex latex
 % to resolve all references
+
+\hfcomment{So, clearly this is clearly very short: Earlier text blocking lead to a mistaken conclusion that the paper would be hitting 6 pages quickly. It also proved easier than expected to summarize some of the methods than expected, which suggests that I should add another. Particle swarm optimization is a good candidate.}
 
 \end{document}
