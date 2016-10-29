@@ -68,7 +68,7 @@ Routing is a deeply pervasive feature of the modern world. From the point-to-poi
 
 \subsection{Routing in the real world}
 \label{ssec:real}
-Routing in the real world is often a complicated and messy affair. The vehicle has to have enough capacity for all of its deliveries, and often, customers expect that the vehicle arrives near a specified time. New stops may be added during the day, or the deliveries may not be known ahead of time. In some cases, the customer might not know how much of a product they need until the vehicle arrives. Dealing with these types of problems is the domain of the Rich Vehicle Routing Problem.
+Routing in the real world is often a complicated and messy affair. The vehicle has to have enough capacity for all of its deliveries, and often, customers expect that the vehicle arrives near a specified time. New stops may be added during the day, or the exact demand of each customer might not be known ahead of time. In some cases, the customer might not know how much of a product they need until the vehicle arrives. Dealing with these types of problems is the domain of the Rich Vehicle Routing Problem.
 \section{The Vehicle Routing Problem}
 \label{sec:VRP}
 
@@ -80,37 +80,11 @@ Routing in the real world is often a complicated and messy affair. The vehicle h
 \label{fig:VRPgraph}
 \end{figure}
 
-Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959\cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot\cite{Caceres-Cruz:2014}. Alternatively, the vehicles may have to make multiple deliveries in order to satisfy all of the customers. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of the vehicles is less than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or multiple constraints simultaneously. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem\cite{Caceres-Cruz:2014} (RVRP). In the following sections of, we discuss prominent variants of the RVRP.
+Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959\cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot\cite{Caceres-Cruz:2014}. Alternatively, the vehicles may have to make multiple deliveries in order to satisfy all of the customers. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of the vehicles is less than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or multiple constraints simultaneously. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem\cite{Caceres-Cruz:2014} (RVRP).  In the following sections of, we discuss prominent variants of the RVRP.
 \subsection{Decentralized Vehicle Routing Problem}
-Many problems in the rich vehicle routing category feature decentralized control\cite{Caceres-Cruz:2014}, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest. However, pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding other methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
+A common problem in rich vehicle routing literature is decentralized control, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest. However, pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
 \subsection{Vehicle Routing Problem with Time Windows}
-\hfcomment{Deliveries during business hours only!}
-\hfcomment{Filler to get the figures to fit correctly.}\\
-THE studio was filled with the rich odour of roses, 
-and when the light summer wind stirred amidst 
-the trees of the garden, there came through the open 
-door the heavy scent of the lilac, or the more delicate 
-perfume of the pink-flowering thorn. 
-
-From the corner of the divan of Persian saddle- 
-bags on which he was lying, smoking, as was his 
-custom, Innumerable cigarettes, Lord Henry Wotton 
-could just catch the gleam of the honey-sweet and 
-honey-coloured blossoms of a laburnum, whose 
-tremulous branches seemed hardly able to bear the 
-burden of a beauty so flame-like as theirs ; and 
-now and then the fantastic shadows of birds in 
-flight flitted across the long tussore-silk curtains 
-that were stretched in front of the huge window, 
-producing a kind of momentary Japanese effect, 
-and making him think of those pallid jade-faced 
-painters of Tokio who, through the medium of an 
-art that is necessarily immobile, seek to convey the 
-sense of swiftness and motion. The sullen murmur 
-of the bees shouldering their way through the long 
-unmown grass, or circling with monotonous insistence 
-round the dusty gilt horns of the straggling woodbine, 
-seemed to make the stillness more oppressive.
+Another variant of the VRP is the vehicle routing problem with time window (VRPTW). The VRPTW describes the situation where the customer expects that the deliveries take place within a certain time interval. Unlike the estimates provided by shipping services, these constraints are set by the customers. A simple example is the constraint that deliveries are only accepted during business hours. This adds the dimension of time to the problem - the time it takes the truck to traverse nodes and to complete the delivery must be considered. The VRPTW is one of the more popular subproblems because deliveries without implicit or explicit time constraints are rare. In practice, the time window constraint is rarely found without other constraints; industrial settings tend to consider the VRPTW to be the base problem for real-world settings. 
 \subsection{Approaches}
 In general the approaches used to solve the VRP are approximate methods; they intend to find 'good', not perfect solutions. The algorithms tend to use simple rules to guess solutions, and the process of narrowing down or perfecting these guesses is known as optimization. \hfcomment{History, maybe?}. Most modern methods of solving the VRP belong to the blackbox style of optimization; blackbox optimization is used when a problem does not have a formal algebraic model, or the model is too computationally expensive \cite{Amaran:2014}. The VRP does have a very good model, but it is extremely computationally expensive to use it, and so the natural choice is to use blackbox methods. The common feature of blackbox methods is the use of stochastic (random) elements, especially in selecting starting states. This makes blackbox methods into a double edged sword; they are often effective at solving otherwise intractable problems, but the solutions frequently fail to produce any insight into the problem. Stochastic decision making makes it hard to determine why the algorithm provides a specific solution. 
 
@@ -161,7 +135,7 @@ jectures.
 
 \subsection{Human Assisted Routing}
 \label{sec:humans}
-\hfcomment{Not sure if it belongs here or in own sesection. Uses a GA as base algorithm.}
+\hfcomment{Not sure if it belongs here or in own section. Uses a GA as base algorithm.}
 
 \begin{figure}
 \centering
