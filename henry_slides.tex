@@ -13,6 +13,7 @@
 \usepackage{graphicx}
 \usepackage[]{algorithm2e}
 \usepackage{amssymb}
+\usepackage{soul}
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
 
@@ -62,11 +63,21 @@
 \section{Routing in the real world}
 
 \begin{frame}
+\frametitle{What is routing?}
+	definition of routing
+\end{frame}
+
+\begin{frame}
 \frametitle{Routing Irl!}
 	\begin{itemize}
 		\item The Post Office does routing!	
 		\item Uber does routing!
 		\item Routing is expensive!
+		\begin{itemize}
+			\item Big!
+			\item Scary!
+			\item Numbers!
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -74,14 +85,29 @@
 
 \begin{frame}
 \frametitle{Traveling Salesman}
+		\begin{itemize}
+			\item "It's kinda the basic question of routing."
+			\item Define.
+			\item NP-hardness.
+			\item NP-hard is hard!
+		\end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Vehicle Routing Problem}
+	\begin{itemize}
+		\item History (verbal only.)
+		\item Pretty graph.
+		\item Description.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Rich Vehicle Routing Problem}
+	\begin{itemize}
+		\item Describe purpose \& intent
+		\item Summarize.
+	\end{itemize}
 \end{frame}
 
 
@@ -101,90 +127,80 @@
 
 \begin{frame}
 \frametitle{Genetic Algorithms I}
-\end{frame}
-
-\begin{frame}
-\frametitle{Genetic Algorithms II}
-\end{frame}
-
-\begin{frame}
-\frametitle{Memetic Algorithms}
+	Loosely describe in a single slide. 
 \end{frame}
 
 \subsection{Hybrid Genetic Search with Advanced Diversity Control}
 
 \begin{frame}
-\frametitle{Hybrid Genetic Search with Advanced Diversity Control}
+\frametitle{HGSADC}
+	\begin{itemize}
+		\item describe objectives
+		\item describe techniques used
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{The algorithm.}
-\scalebox{.5}{
-\begin{algorithm}[H]
-Initialize population\;
-\While{number of interactions without improvement $< lt_{NI}$, and time $< T_{max}$}{
-	Select parent solutions $P_1$ and $P_2$\;
-	Create offspring $C$ from $P_1$ and $P_2$ (crossover)\;
-	Educate $C$ (local search procedure)\;
-	\If{$C$ infeasible}{
-		Insert $C$ into infeasible subpopulation\;
-		Repair with probability $P_rep$\;
-	}
-	\If{$C$ feasible}{
-		Insert $C$ into feasible subpopulation\;
-	}
-	\If{maximum subpopulation size reached}{
-		Select survivors\;
-	}
-	\If{best solution not improved for $It_{div}$ iterations}{
-		Diversify population\;
-	}
-		Adjust penalty parameters for infeasibility\;
-	\If{number of iterations $\textrm{modulo } It_{dec} = 0 $}{
-		Decompose the master problem\;
-		Use HGSADC on each subproblem\;
-		Reconstitute three solutions, and insert them in the
-		population\;
-	}
-}
-\Return best feasible solution\;
-\end{algorithm}}
+\frametitle{HGSADC Algorithm, loosely.}
+ It's genuinely horrifying, so it might not actually get pseudocode. As I've gotten more familiar with it, I've actually found that it gives off a persistent feeling of brutality. 
 \end{frame}
-
-\subsection{Another genetic algorithm-y technique}
 
 \begin{frame}
-\frametitle{Might not include in paper}
+\frametitle{HGSADC Results}
+\begin{itemize}
+		\item Describe utter and ruthless dominance over everything else.
+		\item Note: that even \st{Conan the barbarian} this algorithm can't solve every benchmark in the field.
+		\item "To crush your enemies, to see them driven before you, and to hear the lamentations of their women!" - the goals of the algorithm authors.
+		 
+	\end{itemize}
 \end{frame}
-
 
 \section{Agent-based models and Probability Collectives}
 
 \subsection{Agent-based models}
 
 \begin{frame}
-\frametitle{Agents!}
+\frametitle{Agents}
+	\begin{itemize}
+		\item Agents definition
+		\item example of agent based algorithm (conway's game?)
+		\item hide picture of 007 on page.
+	\end{itemize}
 \end{frame}
 
 \subsection{Distributed Reverse Vickrey Auction Routing}
 
 \begin{frame}
 \frametitle{Reverse Vickrey Auction}
+	\begin{itemize}
+		\item describe objectives
+		\item describe economic rationale
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Distributed RVA routing Algorithm}
+	\begin{itemize}
+		\item describe how it RVA is applied to routing. 
+		\item note that much information is private.
+	\end{itemize}
+
 \end{frame}
 
 \subsection{Probability Collectives}
 
 \begin{frame}
 \frametitle{Probability Collectives}
+	\begin{itemize}
+		\item Context
+		\item Problem space difference from DRVA (it's a public-info algorithm; no hiding)		
+	\end{itemize}
 \end{frame}
 
 
 \begin{frame}
 \frametitle{Probability Collectives Algorithm I}
+	It's worth going into detail for PC - it's easy and really, really cool.
 \end{frame}
 
 \begin{frame}
@@ -195,15 +211,20 @@ Initialize population\;
 
 \begin{frame}
 \frametitle{Human Assisted Routing}
+	\begin{itemize}
+		\item Describe role in routing (uses humans to find locally good routes.)
+		\item Why is it useful (humans are cheap, O(n!) problem)
+	\end{itemize}
 \end{frame}
 
 \section{Conclusions}
 
 \begin{frame}
-\frametitle{Routing Irl!}
+\frametitle{Conclusions}
 	\begin{itemize}
-		\item The HGSADC is the best.	
-		\item Probability Collectives is best distributed system.
+		\item The HGSADC is \textit{the best}.	
+		\item DRVA is best private distributed system		
+		\item Probability Collectives is best public distributed system.
 		\item Humans are still better than computers at guessing.
 		\item Challenges remain in  routing with dynamic constraints.
 	\end{itemize}
