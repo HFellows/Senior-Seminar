@@ -57,10 +57,6 @@
 			</section>
 
 			<section data-markdown>
-				#### hfellows.github.io
-			</section>
-
-			<section data-markdown>
 				###Outline
 
 				1. foo
@@ -76,9 +72,6 @@
 				<h3>
 					What is routing?
 				</h3>
-				<blockquote class="fragment" cite="Wiktionary">
-					&ldquo;A method of finding paths from origins to destinations in a network such as the Internet, along which information can be passed.&rdquo;
-				</blockquote>
 				<blockquote class="fragment" cite="Wikipedia">
 					&ldquo;Routing is the process of selecting a path for traffic in a network, or between or across multiple networks.&rdquo;
 				</blockquote>
@@ -104,11 +97,11 @@
 				<section data-markdown>
 					### Routing by the numbers
 
-					* 11.7 billion tons of freight
+					**11.7 billion tons of freight**
 					* moved in the United States, 2012
-					* 1-2% of EU GDP
+					**1-2% of EU GDP**
 					* External costs of traffic jams in EU, 2011
-					* 1.5 trillion dollars
+					**1.5 trillion dollars**
 					* Value of parcel goods moved in United States, 2012
 				</section>
 			</section>
@@ -116,133 +109,229 @@
 			<section>
 				<h3>Traveling Salesman problem</h3>
 				<p>The problem asks for the shortest route which passes through each point once</p>
-				<ul>
-					<li>In general, the number of possible routes is $\tfrac{1}{2}n!$</li>
-					<li>For $n=10$, this reaches 1,814,400</li>
-					<li>That is bad.</li>
-				</ul>
+				diagram goes here
 				<aside class="notes">
 					"In general - the case where all points are connected to every other point -"
 				</aside>
 			</section>
 
 			<section>
-				<h3>Routing is an NP-hard problem.</h3>
-				<blockquote cite="Wikipedia">
-					&ldquo;- at least as hard as the hardest problems in NP&rdquo;
-				</blockquote>
+				<h3>Traveling Salesman problem</h3>
+				<p>The problem asks for the shortest route which passes through each point once</p>
 				<ul>
-					<li class="fragment">Hard / expensive to find exact solutions quickly</li>
-					<li class="fragment">Probably no easy methods of solving them</li>
-					<li class="fragment">Good solutions to these problems have real value</li>
-				</ul>
-			</section>
+					<li>In general, the number of possible routes is $\tfrac{1}{2}n!$</li>
+					<li>For $n=10$, this is 1,814,400</li>
+					<li>For $n=15$, that is 653,837,184,000</li?
+						<li>That is bad.</li>
+					</ul>
+					<aside class="notes">
+						"In general - the case where all points are connected to every other point -"
+					</aside>
+				</section>
 
-			<section>
-				<h3>The Vehicle Routing Problem (VRP)</h3>
-				<p>Given:</p>
-				<ul>
-					<li>A set of vehicles with a finite capacity</li>
-					<li>A set of customers with a finite demand</li>
-					<li>A list of distances between each customer</li>
-				</ul>
-			</section>
-
-			<section>
 				<section>
-					<h3>The Rich Vehicle Routing Problem (RVRP)</h3>
-					<p>The RVRP solves more complex routing problems:</p>
+					<h3>Routing is an NP-hard problem.</h3>
+					<blockquote cite="Wikipedia">
+						&ldquo;- at least as hard as the hardest problems in NP&rdquo;
+					</blockquote>
 					<ul>
-						<li>Routing things that have to arrive at specfic times</li>
-						<li>Planning routes where you don't know demand ahead of time</li>
-						<li>How to choose routes in a competitive environment</li>
+						<li class="fragment">Hard / expensive to find exact solutions quickly</li>
+						<li class="fragment">Probably no easy methods of solving them</li>
+						<li class="fragment">Good solutions to these problems have real value</li>
 					</ul>
 				</section>
+
 				<section>
-					<h3>Vehicle Routing Problem with Time Windows (VRPTW)</h3>
-					<p>Because you don't want UPS showing up at 2:30am</p>
+					<h3>The Vehicle Routing Problem (VRP)</h3>
+					<p>Given:</p>
 					<ul>
-						<li>Has both time and distance as factors</li>
-						<li>Handles windows and points</li>
+						<li>A set of vehicles with a finite capacity</li>
+						<li>A set of customers with a finite demand</li>
+						<li>A list of distances between each customer</li>
+					</ul>
+					<p>Find the shortest route that satisfies customer demand</p>
+				</section>
+
+				<section>
+					<section>
+						<h3>The Rich Vehicle Routing Problem (RVRP)</h3>
+						<p>The RVRP solves more complex routing problems:</p>
+						<ul>
+							<li>Routing things that have to arrive at specfic times</li>
+							<li>Planning routes where you don't know demand ahead of time</li>
+							<li>How to choose routes in a competitive environment</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Vehicle Routing Problem with Time Windows (VRPTW)</h3>
+						<p>Because you don't want UPS showing up at 2:30am</p>
+						<ul>
+							<li>Has both time and distance as factors</li>
+							<li>Handles windows and points</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Decentralized Vehicle Routing Problem</h3>
+						<p>Asks "How do you route things if every truck plans its own route?"</p>
+						<ul>
+							<li>Less useful in real life currently</li>
+							<li>More popular as self-driving cars </li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h3>Agents</h3>
+					<p>Agents are a loosely defined term. The common features of agents are:</p>
+					<ul>
+						<li>Emulating an individual of a population</li>
+						<li>Limited access to global state</li>
+						<li>Decision making authority is given to individuals.</li>
 					</ul>
 				</section>
+
 				<section>
-					<h3>Decentralized Vehicle Routing Problem</h3>
-					<p>Asks "How do you route things if every truck plans its own route?"</p>
-					<ul>
-						<li>Less useful in real life currently</li>
-						<li>More popular as self-driving cars </li>
+					<h3>Utilities</h3>
+					<ul class="fragment">
+						Diagram goes here
+						<li>Local utility: how good the state is for the indivdual</li>
+						<li>Gobal utility: how good the state is for everyone</li>
 					</ul>
 				</section>
-			</section>
+
+				<section>
+					<h3>Distributed Reverse Vickrey Auction</h3>
+					<ul class="fragment">
+						Diagram goes here
+						<li>A</li>
+						<li>B</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Probability Collectives (PC)</h3>
+					<p>Probability Collectives exploits information theory<br> to find the best set of strategies</p>
+					<ul>
+						<li>A strategy is a solution</li>
+						<li>Agents share information about their strategies</li>
+						<li>The cost function is global</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h3>PC setup</h3>
+						<ul>
+							<li>$N$ agents, each with a set $X$ of strategies</li>
+							<li>$s$ identifies a strategy in the set</li>
+							<div class="fragment">
+								<li>$p$ is a function that gives the probability of a strategy</li>
+								<li>$p(X^{[s]})$ is the probability that a strategy $s$ in set $X$ is the best option</li>
+							</div>
+							<li class="fragment">The probabilities default to a uniform level</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Calculate local utility</h3>
+						<p>For every agent</p>
+						<ol type="1">
+							<li>Form a combined strategy set $Y$</li>
+							<li>Calculate the expected local utility</li>
+							<p>Local utility of Agent $i^r =p^i\prod_{(i)}{p(X^{[?]})\cdot G(Y_i^{[s]})}$</p>
+							<br>
+							<p class="fragment">"The product of all sample probabilities <br> times the estimated global utility"</p>
+						</ol>
+					</section>
+					<section>
+						<h3>Shannon Entropy</h3>
+						<ul>
+							<li>Entropy is an estimate of information content</li>
+							<li>As the entropy of our sets increase, we know more about the usefulness of the strategies within.</li>
+							<li class="fragment">Calculate the Shannon Entropy, $H$, of the set $X$</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Prepare update</h3>
+						<p>For every strategy $s$</p>
+						<ol type="1">
+							<li>Calculate the contribution of agent $i$, $c_i$</li>
+							<p>$c_i =$ Local utility Agent $i^s$ - Global utility</p>
+							<li class="fragment">Update (reduce) $T$, the temperature</li>
+							<li class="fragment">Calculate the update ratio, $k$</li>
+							<p class="fragment">$k = \dfrac{c_i}{T} - H$ </p>
+						</ol>
+					</section>
+					<section>
+						<h3>Update probabilities</h3>
+						<br>
+						<p>  $p(X^{[s]}) \leftarrow p(X^{[s]}) - k \cdot p(X^{[s]})$ </p>
+						<br>
+						<ul>
+							<li class="fragment">If the probabilities changed much: update probabilities again</li>
+							<li class="fragment">Otherwise, return the strategy with the highest probability</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Probability Collectives</h3>
+					  <ul>
+							<li class="fragment">Unimpressive results</li>
+							<li class="fragment">Has potential for improvement</li>
+						</ul>
+					</section>
+					<section id="themes">
+						<h2>Themes</h2>
+						<p>
+							reveal.js comes with a few themes built in: <br>
+							<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
+							<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+						</p>
+					</section>
+
+				</div>
+
+			</div>
+
+			<script src="lib/js/head.min.js"></script>
+			<script src="js/reveal.js"></script>
+
+			<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				showNotes: false,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				// math: {
+				//     mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+				//     config: 'TeX-AMS_CHTML'  // See http://docs.mathjax.org/en/latest/config-files.html
+				// },
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/math/math.js', async: true }
+				]
+			});
+			</script>
 
 
-			<section data-markdown>
-				### Markdown section
-			</section>
-
-			<section data-markdown>
-				### Markdown section
-			</section>
-
-			<section>
-				<h3>Html section</h3>
-			</section>
-
-			<section id="themes">
-				<h2>Themes</h2>
-				<p>
-					reveal.js comes with a few themes built in: <br>
-					<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-				</p>
-			</section>
-
-		</div>
-
-	</div>
-
-	<script src="lib/js/head.min.js"></script>
-	<script src="js/reveal.js"></script>
-
-	<script>
-
-	// More info https://github.com/hakimel/reveal.js#configuration
-	Reveal.initialize({
-		controls: true,
-		progress: true,
-		history: true,
-		center: true,
-		showNotes: false,
-
-		transition: 'slide', // none/fade/slide/convex/concave/zoom
-		// math: {
-		//     mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
-		//     config: 'TeX-AMS_CHTML'  // See http://docs.mathjax.org/en/latest/config-files.html
-		// },
-		// More info https://github.com/hakimel/reveal.js#dependencies
-		dependencies: [
-			{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-			{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-			{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-			{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-			{ src: 'plugin/zoom-js/zoom.js', async: true },
-			{ src: 'plugin/notes/notes.js', async: true },
-			{ src: 'plugin/math/math.js', async: true }
-		]
-	});
-
-	</script>
-
-</body>
-</html>
+		</body>
+		</html>
