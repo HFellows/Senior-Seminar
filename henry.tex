@@ -52,8 +52,7 @@ Henry F. R. Fellows\\
 \maketitle
 \begin{abstract}
 
-The Rich Vehicle Routing Problem is a class of problems that revolve around finding the most optimal route for a certain set of deliveries. Obtaining approximate solutions to these computationally hard problems is both economically valuable and academically interesting. Despite a long history of research in the field, new methods and approaches to specific subproblems are frequently introduced. This paper summarizes the problem, its applications, recent algorithms and approaches.
-
+The Rich Vehicle Routing Problem is a class of problems that revolve around finding the most optimal route for a certain set of deliveries. Obtaining approximate solutions to these computationally hard problems is both economically valuable and academically interesting. This paper describes several recent approaches to popular variants of the Rich Vehicle Routing Problem such as Hybrid Genetic Search with Advanced Diversity Control, Probability Collectives, Distributed Reverse Vickrey Auctions, and Interactive Genetic Routing. \hfcomment{???}
 
 \end{abstract}
 
@@ -61,15 +60,17 @@ The Rich Vehicle Routing Problem is a class of problems that revolve around find
 
 \section{Introduction}
 \label{sec:intro}
-Routing is a deeply pervasive feature of the modern world. From the point-to-point navigation of everyday driving to the shipping of bulk freight, the task of creating those routes has been increasingly automated. The long term trend towards self-driving vehicles means that computers will soon control the entire process of transportation; aside from selecting a time of departure and destination, humans need no longer be involved. Software to create routes for school buses, mail deliveries and garbage trucks have been in use for decades; everything from Amazon to Uber uses these systems on a daily basis. The problem of finding efficient routes quickly is still an ongoing problem in the real world. The exact impact of improvements in routing is difficult to measure, but in 2011, the external costs of traffic jams in the European Union were 1-2\% of GDP\cite{Caceres-Cruz:2014}. \hfcomment{ANOTHER NUMBER}
-%http://www.rita.dot.gov/bts/sites/rita.dot.gov.bts/files/publications/freight_shipments_in_america/html/entire.html
-A small improvement - say five percent - in routing efficiency represents a staggering amount of money. The general case of routing is the traveling salesman problem. The traveling salesman problem asks for the shortest route which passes through each point once. Assuming that each pair of points is connected by a link, the number of potential routes is $\tfrac{1}{2}n!$, which grows extremely quickly, and is significant even for small values. For $n=10$, the number of routes is $1814400$, and for $n=15$, it reaches $653837184000$. The traveling salesman problem is in a class of problems known as NP-complete. Although it has not yet been proven, it is considered likely that there is no algorithm for NP-complete problems that allows them to be solved quickly. \hfcomment{Kirbie says mention polynomial time, I say no.} Fortunately, solutions of NP-complete problems are easy to verify, and this property encourages approximate solutions; routes that satisfy all customers, but may not be the most optimal means of doing so. 
-Routing in the real world is much more complex than the traveling salesman problem implies. There may be an expectation that the vehicle arrives near a specified time. New stops may be added during the trip, or the exact demand of each customer might not be known ahead of time. Dealing with these types of problems is the domain of the Rich Vehicle Routing Problem, which extends the Vehicle Routing Problem described in the next section.
-\hfcomment{Kirbie says that I need an outline: Here it is}
+Routing is a deeply pervasive feature of the modern world. From the point-to-point navigation of everyday driving to the shipping of bulk freight, the task of creating those routes has been increasingly automated. The long term trend towards self-driving vehicles means that computers will soon control the entire process of transportation; aside from selecting a time of departure and destination, humans need no longer be involved. Software to create routes for school buses, mail deliveries and garbage trucks has been in use for decades; everything from Amazon to Delta uses these systems on a daily basis. 
 
-After that, two major classes of approximate solutions to the Vehicle Routing Problem are discussed along with recent algorithms in these categories: genetic algorithms and agent-based algorithms. Finally, conclusions are drawn about the results of these algorithm.
+The exact impact of improvements in routing is difficult to measure, but in 2011, the external costs of traffic jams in the European Union were 1-2\% of GDP \cite{Caceres-Cruz:2014}. In the United States, 57 tons of goods were moved for each person in 2012 \cite{BOTS:2012}. A small change in routing efficiency has the potential to reduce some of the staggeringly large economic and environmental costs of transportation.
 
-\section{The Vehicle Routing Problem}
+The general case of routing is the traveling salesman problem. The traveling salesman problem asks for the shortest route which passes through each point once. Assuming that each pair of points is connected by a link, the number of potential routes is $\tfrac{1}{2}n!$, which grows extremely quickly, and is significant even for small values. For $n=10$, the number of routes is $1,814,400$, and for $n=15$, it reaches $653,837,184,000$. The traveling salesman problem is in a class of problems known as NP-complete. Although it has not yet been proven, it is considered likely that there is no algorithm for NP-complete problems that allows them to be solved quickly. Fortunately, solutions of NP-complete problems are easy to verify, and this property encourages approximate solutions; routes that satisfy all customers, but may not be the most optimal means of doing so. 
+
+Routing in the real world is much more complex than the traveling salesman problem implies. There may be an expectation that the vehicle arrives near a specified time. New stops may be added during the trip, or the exact demand of each customer might not be known ahead of time.
+
+Dealing with these types of problems is the domain of the Rich Vehicle Routing Problem, which extends the Vehicle Routing Problem described in the next section. After that, two major classes of approximate solutions to the Vehicle Routing Problem are discussed along with recent algorithms in these categories: genetic algorithms and agent-based algorithms. Finally, conclusions are drawn about the results of these algorithm.
+
+\section{Rich Vehicle Routing Problem}
 \label{sec:VRP}
 
 \begin{figure}
@@ -80,40 +81,44 @@ After that, two major classes of approximate solutions to the Vehicle Routing Pr
 \label{fig:VRPgraph}
 \end{figure}
 
-Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959\cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot\cite{Caceres-Cruz:2014}. The vehicles may have to make multiple deliveries in order to satisfy all of the customers. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of a vehicle is greater than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem, because then a single truck can serve all customers in a single route. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or multiple constraints simultaneously. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem (RVRP). In the following sections of, we define prominent variants of the RVRP.
+Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959 \cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot as shown in figure \ref{fig:VRPgraph}. The vehicles may have to make multiple trips in order to satisfy all of the customers. The primary metric is the number of trips taken to satisfy all customer demand. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of a vehicle is greater than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem, because then a single truck can serve all customers in a single route. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or many constraints simultaneously \cite{Caceres-Cruz:2014}. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem (RVRP) . In the following sections of, we define prominent variants of the RVRP.
 \subsection{Decentralized Vehicle Routing Problem}
-A common problem in rich vehicle routing literature is decentralized control, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest. This is in contrast to the behavior of the traditional VRP, which has a single controlling entity that is aware of the entire state of the problem. A recurring problem in the DRVP is that pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
-\subsection{Vehicle Routing Problem with Time Windows}
-Another variant of the VRP is the vehicle routing problem with time window (VRPTW). The VRPTW describes the situation where the customer expects that the deliveries take place within a certain time interval. Unlike the estimates provided by shipping services, these constraints are set by the customers. A simple example is the constraint that deliveries are only accepted during business hours. This adds the dimension of time to the problem - the time it takes the truck to traverse nodes and to complete the delivery must be considered. The VRPTW is one of the more popular subproblems because deliveries without implicit or explicit time constraints are rare. In practice, the time window constraint is rarely found without other constraints; industrial settings tend to consider the VRPTW to be the base problem for real-world settings. 
-\subsection{Approaches}
-In general, the approaches used to solve the VRP are approximate methods; they intend to find 'good', not perfect solutions. The algorithms tend to use simple rules to guess solutions, and the process of narrowing down or perfecting these guesses is known as optimization. Most modern methods of solving the VRP belong to the blackbox style of optimization; blackbox optimization is used when a problem does not have a formal algebraic model, or the model is too computationally expensive \cite{Amaran:2014}. The VRP does have a very good model, but it is extremely computationally expensive to use it, and so the natural choice is to use blackbox methods. The common feature of blackbox methods is the use of stochastic (random) elements, especially in selecting starting states. This makes blackbox methods into a double edged sword; they are often effective at solving otherwise intractable problems, but the solutions frequently fail to produce any insight into the problem. Stochastic decision making makes it hard to determine why the algorithm provides a specific solution. 
+A common problem in rich vehicle routing literature is decentralized control, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest \cite{Caceres-Cruz:2014}. This is in contrast to the behavior of the traditional VRP, which has a single controlling entity that is aware of the entire state of the problem. The scheduling system that Delta Airlines uses to dispatch flights is an example of a centralized system; however, when the system crashed in august 2016, it forced the cancellation of hundreds of flights. A decentralized system is not as vulnerable to the failure of individual entities.
 
-\section{Genetic and Memetic Algorithms}
-A genetic algorithm (GA) is a type of problem-solving that is inspired by natural selection. It is often used to find solutions for processes that are not well understood, but can be modeled well. In the case of the VRP, the problem is both known and modeled well, but the approximate solution given by a well-made genetic is often nearly as good, and much faster than computing the exact solution. 
-The fundamental notion of a genetic algorithm is a \textit{genetic representation}, which is a means of representing an individual. Individuals in VRP tend to be routes or sets of routes. By analogy, the representation is the genome of the individual.  A common representation is a fixed-length array of bits, but other representations are possible. These genetic representations are manipulated by genetic operators that simulate various processes. A mutation operator provides the analogue to biological mutation by altering values in the genetic representation; the traditional example is a function that flips bits based on a random number generator. The crossover operator represents reproduction - it combines traits from two (or more) individuals to produce a new individual. 
-Genetic algorithms aim to improve their solutions, and they measure how 'good' a solution is by using a fitness function. Fitness functions are problem specific; in VRP, they measure if the individual solves the problem, and how good that solution is.
+\begin{figure}[h]
+\centering
+\includegraphics[width=3in, keepaspectratio]{utility.png}
+\caption{Example of the VRP}
+\hfcomment{Needs to replaced w/own image.}
+\label{fig:VRPgraph}
+\end{figure}
+ A recurring problem in the DRVP and decentralized systems in general is that pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
+\subsection{VRP with Time Windows}
+Another variant of the VRP is the vehicle routing problem with time window (VRPTW), where the customer expects that the deliveries take place within a certain time interval \cite{Caceres-Cruz:2014}. Unlike the estimates provided by shipping services, these constraints are set by the customers. A simple example is the constraint that deliveries are only accepted during business hours. This adds the dimension of time to the problem -- the time it takes the truck to traverse nodes and to complete the delivery must be considered. The VRPTW is one of the more popular extensions of the VRP because deliveries without implicit or explicit time constraints are rare. In practice, the time window constraint is rarely found without other constraints; industrial settings tend to consider the VRPTW to be the base problem for real-world settings. 
+\subsection{Black Box Optimization}
+In general, the approaches used to solve the VRP are approximate methods; they intend to find 'good', not perfect solutions. The algorithms tend to use simple rules to guess solutions, and the process of narrowing down or refining these guesses is known as optimization. Most modern methods of solving the VRP belong to the blackbox style of optimization; blackbox optimization is used when a problem does not have a formal algebraic model, or the model is too computationally expensive \cite{Amaran:2014}. There is no method to solve the VRP without using the computationally expensive exact solution. The natural choice is to use blackbox methods which trade accuracy for speed. The common feature of these methods is the use of stochastic (random) elements, especially in selecting starting states. This makes blackbox methods into a double edged sword; they are often effective at solving otherwise intractable problems, but the solutions frequently fail to produce any insight into the problem. Stochastic decision making makes it hard to determine why the algorithm provides a specific solution. 
+
+\section{Genetic Algorithms}
+A genetic algorithm (GA) is a type of problem-solving that is inspired by natural selection. It is often used to find solutions for processes that are not well understood, but can be modeled well. In the case of the VRP, the problem is both known and modeled well, but the approximate solution given by a well-made genetic is often nearly as good, and much easier to compute than the exact solution. 
+
+The fundamental notion of a genetic algorithm is a \textit{genetic representation}, which is a means of representing an individual. Individuals in VRP tend to be routes or sets of routes. By analogy, the representation is the genome of the individual.  A common representation is a fixed-length array of bits, but other representations are possible. These genetic representations are manipulated by genetic operators that simulate various processes. A mutation operator provides the analogue to biological mutation by altering values in the genetic representation; for a fixed length array of bit, a common example is a function that flips bits randomly generator. The crossover operator represents reproduction - it combines traits from two (or more) individuals to produce a new individual. 
+Genetic algorithms aim to improve their solutions, and they measure how `good' a solution is by using a fitness function. Fitness functions are problem specific; in VRP, they measure if the individual solves the problem, and how good that solution is.
 
 \begin{algorithm}
 Initialize population\;
-\While{not final state}{
+\While{iteration limit not reached}{
 	Select best individuals via fitness function\;
 	Generate new individuals using genetic operators\;
-	\ForEach{new individual}{
-		\If{better than worst individual}{
-		Replace that individual\;
-			}
-		}
+    Build new population from old \& new individuals\;
 	}
 \Return best solution\;
 \caption{Genetic Algorithm Pseudocode\label{GA}}
 \end{algorithm}
 
-The general form of a GA begins with initializing the population. The canonical example is creating individuals with random representations. Next, the algorithm enters its main loop; the loop is usually terminated when an iteration limit is reached, but other conditions are sometimes used that are specific to the problem. In the loop, the individuals are scored using the fitness function and the best are set aside for the next stage. The crossover operator is then applied to this group, and the mutation operator on the resulting individuals. Then, it evaluates each individual and replaces the worst members of the population with the new individuals. This process is repeated until the termination condition is reached.
+The general form of a GA begins with initializing the population. A selection of individuals with a random genetic representation is created. As illustrated in algorithm \ref{GA}, the algorithm enters its main loop; the loop is usually terminated when an iteration limit is reached, but other conditions are sometimes used that are specific to the problem. In the loop, the individuals are scored using the fitness function and the best are set aside for the next stage. The crossover operator is then applied to this group, and mutation operator on the resulting individuals. Then, it evaluates each individual and replaces the worst members of the population with the best new individuals. This process is repeated until the termination condition is reached; this is frequently an iteration limit. The individual with the highest fitness in the population is then returned.
+\subsection{Interactive Genetic Routing}
 
-The individual with the highest fitness is then returned
-\subsection{Human Assisted Genetic Routing}
-\label{sec:humans}
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[width=3in, keepaspectratio]{vrp2.jpg}
 \caption{To be example of selecting good/bad regions}
@@ -121,39 +126,36 @@ The individual with the highest fitness is then returned
 \label{fig:Humangraph}
 \end{figure}
 
-Humans tend to be very good at solving visual problems, and this extends to the routing if the problem is displayed appropriately. We have a talent for deciding whether a given route is good or bad by simply looking at a diagram. Recently, a number of platforms were created to allow developers to make use of human intelligence in solving computationally complex problems. Amazon's mechanical turk, an example of these platforms, allows the exploitation of human intuition by offering an API that makes it simpler to integrate into software. Continuing the theme of using humans to do things humans are good at, S. Ismail, F. Legras and G. Coppin\cite{Ismail:2012} created a genetic algorithm that uses humans to determine how good a particular solution is. 
+Humans tend to be very good at solving visual problems, and this extends to the routing if the problem is displayed appropriately. We have a talent for deciding whether a given route is good or bad by simply looking at a diagram. Recently, a number of platforms were created to allow developers to make use of human intelligence in solving computationally complex problems. Amazon's Mechanical Turk, an example of these platforms, allows the exploitation of human intuition by offering an API that makes it possible to integrate into software. 
+	Continuing the theme of using humans to do things humans are good at, S. Ismail, F. Legras, and G. Coppin \cite{Ismail:2012} created a genetic algorithm that uses humans to determine how good a particular solution is. 
 
 
 \begin{algorithm}
 Initialize population\;
-\While{number of interactions without improvement $< lt_{NI}$, and time $< T_{max}$}{
-	Coherent algorithm goes here!\;
-	Genetic algorithm stuff!\;
-	Human selection suff!\;
-	If good tags \;
-	- higher selection probability\;
-	- mutation operator not allowed\;
-	If bad tags\;
-	- lower selection probability\;
-	- mutation operator encouraged\;
-	Standard heuristic function\;
-	Crossover\;
+\While{iteration limit not reached}{
+	Select best individuals via fitness function\;
+	Generate new individuals using crossover\;
+	Humans to tag portions of new individual\;
+	Mutate individuals based on tagging\;
+    Build new population from old \& new individuals\;
 	}
 \Return best feasible solution\;
-\caption{Human Assisted Genetic Algorithm\label{HUMGA}}
+\caption{Interactive Genetic Algorithm\label{HUMGA}}
 \end{algorithm}
-\hfcomment{describe in words, reference image}
-\hfcomment{Don't have access to article at home ...}
-\subsection{Hybrid Genetic Search with Advanced Diversity Control}
-Adding time window constraints to customer demand and depot availability poses a significant challenge, especially in relation to the smaller proportion of solutions and the increased computational complexity caused by the increased search space. The opposing demands of temporal and spatial constraints is a particularly frustrating problem in the VRPTW.
 
-The Hybrid Genetic Search with Advanced Diversity Control (HGSADC) address some of these challenges in the VRPTW, especially in route-duration constraints. The primary feature of the HGSADC is the different approach to diversity management in it's population. HGSADC adds diversity to its objectives as a term to be optimized, which allows it to avoid dead-end solutions. The algorithm is considered the current state of the art in the multi-depot vehicle routing problem with time windows\cite{Vidal:2013}.
+The interactive genetic algorithm, algorithm \ref{HUMGA}, uses humans to find good sequences of destinations. It begins by initializing the population with a set of random individuals. The individuals are sets of routes in this case. While the iteration cap has not been reached, the algorithm first creates a new group of individuals using a standard crossover operator. Then, humans are used to tag good or bad sections of the routes in each individual as shown in figure \ref{fig:Humangraph}. A good section should be a segment of the route that is likely to be part of the most optimal route; a bad section is a poor segment of a route. The tags influence the mutation operator; a `good' section is unlikely to be modified, while a bad section is likely to be modified. This encourages preservation of good sections, while bad sections are removed. Conventional genetic algorithms are unable to gather or act on any information about the details of the individual aside from the overall fitness. The human involvement allows semi-intelligent decisions to be made about what parts of the individual should be changed. After the mutation operator, it evaluates each individual and replaces the worst members of the population with the best new individuals. The algorithm repeats until the iteration limit is reached and the individual with the best routes is returned. 
+
+Ismail, Legras, and Coppin don't provide any experimental results in the paper, but note that humans are relatively slow. In practice, humans would be best used in very large scale routing problems where the added time isn't as much of a concern, and the tagging procedure may not be called every iteration. 
+
+\subsection{Hybrid Genetic Search with Advanced Diversity Control}
+Adding time window constraints to customer demand and depot availability poses a significant challenge. Time, distance, and speed are now important to the problem, and all of these factors must be accounted for. The opposing demands of temporal and spatial constraints is a particularly frustrating problem in the VRPTW. 
+
+The Hybrid Genetic Search with Advanced Diversity Control (HGSADC) addresses some of these challenges in the VRPTW, especially in route-duration constraints. The primary feature of the HGSADC is a different approach to diversity management in its population. HGSADC adds diversity to its objectives as a term to be optimized, which allows it to avoid dead-end solutions by recalling earlier solutions that do not encounter the same problem. The algorithm is considered the current state of the art in the multi-depot vehicle routing problem with time windows \cite{Vidal:2013}.
 
 \subsubsection{Algorithm and mechanics}
 HGSADC is a complex algorithm, and cannot be fully described in this paper. What follows is a summary of the algorithm and the most notable features.
 
-
-\begin{algorithm}
+\begin{algorithm}[h]
 Initialize populations at $4\mu$ size\;
 \While{number of interactions without improvement $< lt_{NI}$, and time $< T_{max}$}{
 	Select parent solutions $P_1$ and $P_2$\;
@@ -173,8 +175,7 @@ Initialize populations at $4\mu$ size\;
 		Diversify population\;
 	}
 		Adjust penalty parameters for infeasibility\;
-	\If{number of iterations $modulo It_{dec} = 0$}{
-		\hfcomment{aka every n iterations}\;
+	\If{number of iterations $modulo$ $It_{dec} = 0$}{
 		Decompose the master problem\;
 		Use HGSADC on each subproblem\;
 		Reconstitute three solutions, and insert them in the
@@ -184,20 +185,25 @@ Initialize populations at $4\mu$ size\;
 \caption{Hybrid Genetic Search with Advanced Diversity Control\label{HGSADC}}
 \Return best feasible solution\;
 \end{algorithm}
-\hfcomment{This algorithm is actually frighteningly complex. It goes on for five pages, and it doesn't go into great detail, either. Also, the pseudocode should be above this}
-HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. Normally, infeasible ( `bad' ) solutions are removed from the population, but in the HGSADC, they are kept in a seperate subpopulation. The rationale is that this allows the algorithm to create a reserve of genetic diversity that can be used to get the population out of dead ends. Two random individuals are pulled from the combined population and the best of them is chosen to be a parent. The crossover operator is an applied to two parents, and the resulting child is educated.
- The education process is a limited local search that seeks to improve the child; if the child is still infeasible after this procedure, the repair procedure may be called. $P_{rep}$ is the probability that the repair operator is called; repair is a very intensive local search. Finally, the child is placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered. A number of individuals is removed until the population returns to the nominal population size $\mu$. The individual that is most similar in terms of fitness score and route to another individual is called the clone. Survivor selection iteratively removes the clone until the population size is returned to $\mu$. The purpose of this style of population management is to maintain diversity. A diversification round may be started if there has been $It_{div}$ iterations without improvement. \hfcomment{More when I understand it.} 
- \hfcomment{Don't have access to article at home ...}
+
+HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. Normally, infeasible (`incorrect') solutions are removed from the population, but in the HGSADC, they are kept in a separate subpopulation. The rationale is that this allows the algorithm to create a reserve of genetic diversity that can be used to get the population out of dead ends. Two random individuals are pulled from the combined population and the best of them is chosen to be a parent. The crossover operator is an applied to two parents, and the resulting child is educated.
+
+The education process is a limited local search that seeks to improve the child; if the child is still infeasible after this procedure, the repair procedure may be called. $P_{rep}$ is the probability that the repair operator is called; repair is a very intensive local search. Finally, the child is placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered. A number of individuals is removed until the population returns to the nominal population size $\mu$. The individual that is most similar in terms of fitness score and route to another individual is called the clone. Survivor selection iteratively removes the clone until the population size is returned to $\mu$. The purpose of this style of population management is to maintain diversity. A diversification round may be started if there has been $It_{div}$ iterations without improvement. The best third of each population is retained, and adds $4\mu$ randomly created individuals to introduce new genetic material to the populations. 
+
+Finally, every $It_{dec}$ iterations, the problem is decomposed into simplified subproblems and the HGSADC is run on those subproblems (without further decomposition). The initial population of subproblem solutions are created from the relevant genetic material of existing individuals in the populations of the original problem. The three best individuals of each subproblem are retained and merged to form three elite individuals who are added to the population of the original problem.
+
+When the algorithm has finally hit the maximum time, the best solution from the feasible population is returned.
+
 \subsubsection{HGSADC Results} 
- It's crazy good. \hfcomment{More to come, but to say that it blows everything else out of the water is an understatement.}
- \hfcomment{Don't have access to article at home ...}
+ The HGSADC is extremely good at solving VRPTW. Algorithms are tested by measuring how close to optimal is the best solution the algorithm produced on a number of test data sets. Out of 465 instances of the VRPTW, the HGSADC improved or found the previous best solution 397 times. It strictly improved the best known solution 233 times. For certain types of instances, the HGSADC is the best known algorithm in literature. On the remaining instances, the HGSADC generates solutions of comparable quality to an earlier algorithm by Nagata et al, and is less computationally efficient. However, it does not require as many hand tailored components for each instance, and performs better on problems with tighter time windows and shorter routes. The average standard deviation of the results is $0.2-0.4\%$, which shows that the algorithm is highly stable or consistent. 
+  
 \section{Agent-based models}
 Agents are simply small decision making elements that typically have some internal state and the ability to make decisions based on this internal state and potentially some . They typically represent and individual in a population. In optimization, a typical goal is for an agent to attempt to achieve some sort of optimal state. Agents (should) take actions to improve their state, and we describe this as the agent acting in its own interest. The function that returns the quantification of this local optimization is termed the local utility function, in contrast to the global, or system utility function. The global utility function describes how optimal the system is, which can be quite different from the local utility.
 We have chosen to discuss two major approaches in modeling individuals for the decentralized VRP. The first is agent-based models, the more traditional approach, and the second is probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
 
 \subsection{Distributed reverse Vickrey auctions}
 
-Saleh et al.\cite{Saleh:2012} were examining a version of the decentralized VRP where each depot and customer are treated as agents, as opposed to the more common version that treats vehicles as agents. The authors were interested in designing a system that encouraged near-optimal solutions while still being completely self-interested. They pursued this by building mechanisms that encouraged depots to offer an accurate estimate of minimum costs while still allowing the cost functions of each depot to remain private. 
+Saleh et al. \cite{Saleh:2012} were examining a version of the decentralized VRP where each depot and customer are treated as agents, as opposed to the more common version that treats vehicles as agents. The authors were interested in designing a system that encouraged near-optimal solutions while still being completely self-interested. They pursued this by building mechanisms that encouraged depots to offer an accurate estimate of minimum costs while still allowing the cost functions of each depot to remain private. 
 
 The core feature of the algorithm is a reverse Vickrey auction, which is a sealed bid reverse auction where competitors offer a estimate of the cost of providing a service. The consumer selects the bidder that has the lowest cost, but pays them the amount of the second lowest bid. This encourages bidders to bid an honest estimate of cost; in the case that they win, they will always make a profit over their bid.
 
@@ -206,15 +212,23 @@ The algorithm is played as a number of rounds. In each round, each depot $k$ sub
 The Distributed reverse Vickrey auction is an effective technique of solving the decentralized VRP in a competitive environment where information is not shared. The authors note that the performance of the algorithm is highly dependent on the choice of lower level routing algorithms
 \subsection{Probability Collectives}
 \label{ssec:PC}
-Probability Collectives (PC) takes a different approach to selecting a good solution. Instead of attempting to evolve an exemplary individual in a population in the method of genetic or memetic algorithms, probability collectives selects optimal strategy for each agent\cite{Kulkarni:2008}. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. In contrast to the Distributed Reverse Vickrey Auction, the agents willingly and freely share information about their strategies, and the cost function is global.
+Probability Collectives (PC) takes a different approach to selecting a good solution. Instead of attempting to evolve an exemplary individual in a population like genetic algorithms, probability collectives selects optimal strategy for each agent \cite{Kulkarni:2008}. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. In contrast to the Distributed Reverse Vickrey Auction, the agents willingly and freely share information about their strategies, and the cost function is global.
 
-\subsubsection{Mechanics of Probability Collectives}
-The general form of PC in the context of VRP is as follows, along with the flowchart below. It is important to note this process is repeated for every agent in the system. Imagine you have $N$ agents, which can be depots or trucks, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often routes in RVRP applications\cite{Vasirani:2008}. $X$ is sampled from the interval $\psi_i$ with upper and lower bounds $\psi^u$ and $\psi^l$, which is a non-strict subset of all possible strategies. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=2in, keepaspectratio]{"Probability Collectives Diagram".pdf}
+\caption{Probability Collectives Algorithm.}
+\label{fig:PCDiagram}
+\end{figure}
+
+The general form of PC in the context of VRP is as follows, along with the flowchart below. It is important to note this process is repeated for every agent in the system. Imagine you have $N$ agents, which can be depots or trucks, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often routes in RVRP applications \cite{Vasirani:2008}. $X$ is sampled from the interval $\psi_i$ with upper and lower bounds $\psi^u$ and $\psi^l$, which is a non-strict subset of all possible strategies. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. 
 
 A strategy for agent $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that strategy. For each agent, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that strategy is signified by $q(X_i^{[r]})$. The agents then selects a random action $r$ and a sampling of random actions from other agents. The resulting set, the `combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, represents a guess as to a potential future. Accordingly, for each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
+
 	\begin{equation}
 	\textit{Exp. Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})\cdot G(Y_i^{[r]})}
 	\end{equation}
+	
 Where $q_i^r$ represents the probability of action $r$ for vehicle $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of strategies. $G$ is problem specific, but in the RVRP it could be a measure of unused capacity, unvisited destinations, maximum tour length or various combinations of measurements.
 
 After computing the local utility, the next step is to update the probability of each action for all agents as follows:
@@ -227,7 +241,7 @@ where $k$ is the iteration, $\alpha_{step}$ is a constant that controls the amou
 	O_k^r = \dfrac{\textit{Contrib. of Agent }i}{T_k}+S_i(q)+ln(q(X_i^{[r]}))
 	\end{equation}
 	
-Here, temperature $T_k$ is a scalar that represents the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_{(k+1)}=T_{k} - \alpha_{T}\cdot T_{k}$, and $T_0$ is the initial temperature. The initial value is unimportant - it must simply be``sufficently high"\cite{Book}. $\alpha_{T}$ controls the rate of temperature change, and the values are often chosen experimentally.
+Here, temperature $T_k$ is a scalar that represents the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_{(k+1)}=T_{k} - \alpha_{T}\cdot T_{k}$, and $T_0$ is the initial temperature. The initial value is unimportant - it must simply be``sufficently high" \hfcomment{cite{Book}}. $\alpha_{T}$ controls the rate of temperature change, and the values are often chosen experimentally.
 The contribution of Agent $i$ is then:
 	\begin{equation}
 	\textit{Contrib. Agent }i = \textit{Exp. Utility Agent }i^r - \textit{Exp. Global Utility}
@@ -247,12 +261,6 @@ $\lambda$ is a constant between 0 and 1 that controls how quickly the sampling i
 
 To summarize, if a strategy $r$ creates a larger contribution to the optimization of the objective than other strategies, the probability associated with $r$ increases by a larger amount. This entire process is repeated until the probability distribution converges or the maximum number of iterations are completed. 
 
-\begin{figure}
-\centering
-\includegraphics[width=2in, keepaspectratio]{"Probability Collectives Diagram".pdf}
-\caption{Probability Collectives Algorithm.}
-\label{fig:PCDiagram}
-\end{figure}
 
 \section{Conclusion}
 \label{conclusion}
