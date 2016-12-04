@@ -81,18 +81,17 @@ Dealing with these types of problems is the domain of the Rich Vehicle Routing P
 \label{fig:VRPgraph}
 \end{figure}
 
-Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959 \cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot as shown in figure \ref{fig:VRPgraph}. The vehicles may have to make multiple trips in order to satisfy all of the customers. The primary metric is the number of trips taken to satisfy all customer demand. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of a vehicle is greater than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem, because then a single truck can serve all customers in a single route. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or many constraints simultaneously \cite{Caceres-Cruz:2014}. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem (RVRP) . In the following sections of, we define prominent variants of the RVRP.
+Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959 \cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot as shown in Figure~\ref{fig:VRPgraph}. The vehicles may have to make multiple trips in order to satisfy all of the customers. The primary metric is the number of trips taken to satisfy all customer demand. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of a vehicle is greater than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem, because then a single truck can serve all customers in a single route. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or many constraints simultaneously~\cite{Caceres-Cruz:2014}. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem (RVRP) . In the following sections of, we define prominent variants of the RVRP.
 \subsection{Decentralized Vehicle Routing Problem}
 A common problem in rich vehicle routing literature is decentralized control, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest \cite{Caceres-Cruz:2014}. This is in contrast to the behavior of the traditional VRP, which has a single controlling entity that is aware of the entire state of the problem. The scheduling system that Delta Airlines uses to dispatch flights is an example of a centralized system; however, when the system crashed in august 2016, it forced the cancellation of hundreds of flights. A decentralized system is not as vulnerable to the failure of individual entities.
 
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
 \includegraphics[width=3in, keepaspectratio]{utility.png}
-\caption{Example of the VRP}
-\hfcomment{Needs to replaced w/own image.}
-\label{fig:VRPgraph}
+\caption{Example of poor global utility in DVRP}
+\label{fig:DVRPgraph}
 \end{figure}
- A recurring problem in the DRVP and decentralized systems in general is that pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
+ A recurring problem in the DRVP and decentralized systems in general is that pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. Figure \ref{fig:DVRPgraph} is an example of this, where the blue (long dashed line) route is \hfcomment{Fixme} While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
 \subsection{VRP with Time Windows}
 Another variant of the VRP is the vehicle routing problem with time window (VRPTW), where the customer expects that the deliveries take place within a certain time interval \cite{Caceres-Cruz:2014}. Unlike the estimates provided by shipping services, these constraints are set by the customers. A simple example is the constraint that deliveries are only accepted during business hours. This adds the dimension of time to the problem -- the time it takes the truck to traverse nodes and to complete the delivery must be considered. The VRPTW is one of the more popular extensions of the VRP because deliveries without implicit or explicit time constraints are rare. In practice, the time window constraint is rarely found without other constraints; industrial settings tend to consider the VRPTW to be the base problem for real-world settings. 
 \subsection{Black Box Optimization}
@@ -104,7 +103,7 @@ A genetic algorithm (GA) is a type of problem-solving that is inspired by natura
 The fundamental notion of a genetic algorithm is a \textit{genetic representation}, which is a means of representing an individual. Individuals in VRP tend to be routes or sets of routes. By analogy, the representation is the genome of the individual.  A common representation is a fixed-length array of bits, but other representations are possible. These genetic representations are manipulated by genetic operators that simulate various processes. A mutation operator provides the analogue to biological mutation by altering values in the genetic representation; for a fixed length array of bit, a common example is a function that flips bits randomly generator. The crossover operator represents reproduction - it combines traits from two (or more) individuals to produce a new individual. 
 Genetic algorithms aim to improve their solutions, and they measure how `good' a solution is by using a fitness function. Fitness functions are problem specific; in VRP, they measure if the individual solves the problem, and how good that solution is.
 
-\begin{algorithm}
+\begin{algorithm}[t]
 Initialize population\;
 \While{iteration limit not reached}{
 	Select best individuals via fitness function\;
@@ -118,7 +117,7 @@ Initialize population\;
 The general form of a GA begins with initializing the population. A selection of individuals with a random genetic representation is created. As illustrated in algorithm \ref{GA}, the algorithm enters its main loop; the loop is usually terminated when an iteration limit is reached, but other conditions are sometimes used that are specific to the problem. In the loop, the individuals are scored using the fitness function and the best are set aside for the next stage. The crossover operator is then applied to this group, and mutation operator on the resulting individuals. Then, it evaluates each individual and replaces the worst members of the population with the best new individuals. This process is repeated until the termination condition is reached; this is frequently an iteration limit. The individual with the highest fitness in the population is then returned.
 \subsection{Interactive Genetic Routing}
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 \includegraphics[width=3in, keepaspectratio]{vrp2.jpg}
 \caption{To be example of selecting good/bad regions}
@@ -130,7 +129,7 @@ Humans tend to be very good at solving visual problems, and this extends to the 
 	Continuing the theme of using humans to do things humans are good at, S. Ismail, F. Legras, and G. Coppin \cite{Ismail:2012} created a genetic algorithm that uses humans to determine how good a particular solution is. 
 
 
-\begin{algorithm}
+\begin{algorithm}[t]
 Initialize population\;
 \While{iteration limit not reached}{
 	Select best individuals via fitness function\;
@@ -153,9 +152,9 @@ Adding time window constraints to customer demand and depot availability poses a
 The Hybrid Genetic Search with Advanced Diversity Control (HGSADC) addresses some of these challenges in the VRPTW, especially in route-duration constraints. The primary feature of the HGSADC is a different approach to diversity management in its population. HGSADC adds diversity to its objectives as a term to be optimized, which allows it to avoid dead-end solutions by recalling earlier solutions that do not encounter the same problem. The algorithm is considered the current state of the art in the multi-depot vehicle routing problem with time windows \cite{Vidal:2013}.
 
 \subsubsection{Algorithm and mechanics}
-HGSADC is a complex algorithm, and cannot be fully described in this paper. What follows is a summary of the algorithm and the most notable features.
+HGSADC is a complex algorithm, and cannot be fully described in this paper. What follows is a summary of Algorithm~\ref{HGSADC} and the most notable features.
 
-\begin{algorithm}[h]
+\begin{algorithm}[t]
 Initialize populations at $4\mu$ size\;
 \While{number of interactions without improvement $< lt_{NI}$, and time $< T_{max}$}{
 	Select parent solutions $P_1$ and $P_2$\;
@@ -188,7 +187,7 @@ Initialize populations at $4\mu$ size\;
 
 HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. Normally, infeasible (`incorrect') solutions are removed from the population, but in the HGSADC, they are kept in a separate subpopulation. The rationale is that this allows the algorithm to create a reserve of genetic diversity that can be used to get the population out of dead ends. Two random individuals are pulled from the combined population and the best of them is chosen to be a parent. The crossover operator is an applied to two parents, and the resulting child is educated.
 
-The education process is a limited local search that seeks to improve the child; if the child is still infeasible after this procedure, the repair procedure may be called. $P_{rep}$ is the probability that the repair operator is called; repair is a very intensive local search. Finally, the child is placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered. A number of individuals is removed until the population returns to the nominal population size $\mu$. The individual that is most similar in terms of fitness score and route to another individual is called the clone. Survivor selection iteratively removes the clone until the population size is returned to $\mu$. The purpose of this style of population management is to maintain diversity. A diversification round may be started if there has been $It_{div}$ iterations without improvement. The best third of each population is retained, and adds $4\mu$ randomly created individuals to introduce new genetic material to the populations. 
+The education process is a limited local search that seeks to improve the child; if the child is still infeasible after this procedure, the repair procedure may be called. $P_{rep}$ is the probability that the repair operator is called; repair is a very intensive local search. Finally, the child is placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered. A number of individuals is removed until the population returns to the nominal population size $\mu$. An individual that is most similar in terms of fitness score and route to another individual is called a clone. Survivor selection iteratively removes a clone until the population size is returned to $\mu$. The purpose of this style of population management is to maintain diversity. A diversification round may be started if there has been $It_{div}$ iterations without improvement. The best third of each population is retained, and adds $4\mu$ randomly created individuals to introduce new genetic material to the populations. 
 
 Finally, every $It_{dec}$ iterations, the problem is decomposed into simplified subproblems and the HGSADC is run on those subproblems (without further decomposition). The initial population of subproblem solutions are created from the relevant genetic material of existing individuals in the populations of the original problem. The three best individuals of each subproblem are retained and merged to form three elite individuals who are added to the population of the original problem.
 
@@ -241,12 +240,12 @@ where $k$ is the iteration, $\alpha_{step}$ is a constant that controls the amou
 	O_k^r = \dfrac{\textit{Contrib. of Agent }i}{T_k}+S_i(q)+ln(q(X_i^{[r]}))
 	\end{equation}
 	
-Here, temperature $T_k$ is a scalar that represents the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_{(k+1)}=T_{k} - \alpha_{T}\cdot T_{k}$, and $T_0$ is the initial temperature. The initial value is unimportant - it must simply be``sufficently high" \hfcomment{cite{Book}}. $\alpha_{T}$ controls the rate of temperature change, and the values are often chosen experimentally.
+Here, temperature $T_k$ is a scalar that represethe nts the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_{(k+1)}=T_{k} - \alpha_{T}\cdot T_{k}$, and $T_0$ is the initial temperature. The initial value is unimportant - it must simply be``sufficently high" \hfcomment{cite{Book}}. $\alpha_{T}$ controls the rate of temperature change, and the values are often chosen experimentally.
 The contribution of Agent $i$ is then:
 	\begin{equation}
 	\textit{Contrib. Agent }i = \textit{Exp. Utility Agent }i^r - \textit{Exp. Global Utility}
-	\end{equation}
-	
+	\end{equation}h=3in, keepaspectratio]{utility.png}
+
 The $S_i(q)$ term is the entropy of the combined strategy set. In information theory, Entropy is the average value of the information in a message. Probability collectives treats the combined strategy set as a message in order to find the set with the highest Entropy. As it increases, the probability distribution more clearly distinguishes the contribution of each strategy toward optimizing the expected global utility. When it reaches a maximum, it represents the set that has the most information about the probabilities of each strategy. Entropy is computed by:
 	\begin{equation}
 	S_i(q)=-\sum_{r=1}^{m_i}q(X_i^{[r]})\cdot ln(q(X_i^{[r]})
@@ -255,7 +254,7 @@ The $S_i(q)$ term is the entropy of the combined strategy set. In information th
 Which is the sum of every strategy $q(X_i^{[r]})$ times the natural logarithm of itself. Here, the algorithm checks to see if it will continue updating the global utility or it will terminate. If the probabilities of the combined strategy set have not changed by a constant amount, $\sigma$, or if the number of iterations ($k$) have reached a maximum, the strategy with the highest probabilities will be returned. Otherwise, the algorithm will continue by narrowing and re-centering the sampling interval $\psi_i$. If a strategy is represented as a numeric, linear value, the interval update is 
 	\begin{equation}
 	\psi_{new} = [(X_i^{[best]}-\lambda|\psi_i^u - \psi_i^l|),(X_i^{[best]}+\lambda|\psi_i^u - \psi_i^l|)]
-	\end{equation}
+	\end{equation}the 
 
 $\lambda$ is a constant between 0 and 1 that controls how quickly the sampling interval narrows. After $\psi$ is narrowed then a new strategy set is sampled, and the process of refining those probabilities is started anew. Once every agent has returned a final strategy, each agent can then pursue those strategies.
 
