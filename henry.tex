@@ -52,8 +52,7 @@ Henry F. R. Fellows\\
 \maketitle
 \begin{abstract}
 
-The Rich Vehicle Routing Problem is a class of problems that revolve around finding the most optimal route for a certain set of deliveries. Obtaining approximate solutions to these computationally hard problems is both economically valuable and academically interesting. This paper describes several recent approaches to popular variants of the Rich Vehicle Routing Problem such as Hybrid Genetic Search with Advanced Diversity Control, Probability Collectives, Distributed Reverse Vickrey Auctions, and Interactive Genetic Routing. \hfcomment{???}
-
+The Rich Vehicle Routing Problem is a class of problems that revolve around finding the most optimal route for a certain set of deliveries. Obtaining approximate solutions to these computationally hard problems is both economically valuable and academically interesting. This paper describes several recent approaches to popular variants of the Rich Vehicle Routing Problem such as Hybrid Genetic Search with Advanced Diversity Control, Probability Collectives, Distributed Reverse Vickrey Auctions, and Interactive Genetic Routing.
 \end{abstract}
 
 \keywords{Vehicle Routing Problem, Black-box optimization, Genetic Algorithms, Probability Collectives, Distributed Systems}
@@ -75,23 +74,22 @@ Dealing with these types of problems is the domain of the Rich Vehicle Routing P
 
 \begin{figure}
 \centering
-\includegraphics[width=3in, keepaspectratio]{vrp1.png}
+\includegraphics[width=3in, keepaspectratio]{VRP.png}
 \caption{Example of the VRP}
-\hfcomment{Needs to replaced w/own image.}
 \label{fig:VRPgraph}
 \end{figure}
 
 Originally titled the Truck Dispatching Problem, the original formulation of the Vehicle Routing Problem (VRP) was created by G. B. Danzig and J. H. Ramser in 1959 \cite{Danzig:1959}. The premise of the problem is that each vehicle (or truck), has a limited capacity and the fleet must make deliveries to as many customers as possible, starting from a specific location known as a depot as shown in Figure~\ref{fig:VRPgraph}. The vehicles may have to make multiple trips in order to satisfy all of the customers. The primary metric is the number of trips taken to satisfy all customer demand. A measure that is also considered worth minimizing is the maximum tour length - the longest single route taken by one truck. Danzig and Ramser note that if the total capacity of a vehicle is greater than the total demand of the customers, the problem is mathematically identical to the traveling salesman problem, because then a single truck can serve all customers in a single route. There has been a great deal of research done on the original VRP, and recent research focuses on versions of the VRP with different constraints or many constraints simultaneously~\cite{Caceres-Cruz:2014}. These variations of the Vehicle Routing Problem are collectively referred to as the Rich Vehicle Routing Problem (RVRP) . In the following sections of, we define prominent variants of the RVRP.
 \subsection{Decentralized Vehicle Routing Problem}
-A common problem in rich vehicle routing literature is decentralized control, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest \cite{Caceres-Cruz:2014}. This is in contrast to the behavior of the traditional VRP, which has a single controlling entity that is aware of the entire state of the problem. The scheduling system that Delta Airlines uses to dispatch flights is an example of a centralized system; however, when the system crashed in august 2016, it forced the cancellation of hundreds of flights. A decentralized system is not as vulnerable to the failure of individual entities.
+A common problem in rich vehicle routing literature is decentralized control, where each vehicle or depot is modeled as having an independent agent who makes decisions out of self-interest \cite{Caceres-Cruz:2014}. This is in contrast to the behavior of the traditional VRP, which has a single controlling entity that is aware of the entire state of the problem. The scheduling system that Delta Airlines uses to dispatch flights is an example of a centralized system; however, when the system crashed in august 2016, it forced the cancellation of hundreds of flights. A decentralized system is not as vulnerable to the failure of individual entities, which makes it useful in high-availability systems. In some cases, decentralized routing also makes sense when the  vehicles are owned by independent owners that do not wish to maintain their own systems for routing.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=3in, keepaspectratio]{utility.png}
+\includegraphics[width=3.5in, keepaspectratio]{Utility.png}
 \caption{Example of poor global utility in DVRP}
 \label{fig:DVRPgraph}
 \end{figure}
- A recurring problem in the DRVP and decentralized systems in general is that pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. Figure \ref{fig:DVRPgraph} is an example of this, where the blue (long dashed line) route is \hfcomment{Fixme} While it is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
+ A recurring problem in the DRVP and decentralized systems in general is that pure self-interest can cause decisions that degrade the solutions of others. Imagine a vehicle which finds a route that fulfills a large number of deliveries extremely quickly; other vehicles might find that their routes force them to cross through this area where they cannot make any deliveries along the way. Figure \ref{fig:DVRPgraph} is an example of this, where the blue (solid line) route is highly efficient for the first vehicle, it is less efficient for all other vehicles. The ideal is to pursue optimal routes - both on the local (individual) scale, and on a global scale. Finding good methods of making decisions that allow for both autonomy and global utility is an ongoing research question. 
 \subsection{VRP with Time Windows}
 Another variant of the VRP is the vehicle routing problem with time window (VRPTW), where the customer expects that the deliveries take place within a certain time interval \cite{Caceres-Cruz:2014}. Unlike the estimates provided by shipping services, these constraints are set by the customers. A simple example is the constraint that deliveries are only accepted during business hours. This adds the dimension of time to the problem -- the time it takes the truck to traverse nodes and to complete the delivery must be considered. The VRPTW is one of the more popular extensions of the VRP because deliveries without implicit or explicit time constraints are rare. In practice, the time window constraint is rarely found without other constraints; industrial settings tend to consider the VRPTW to be the base problem for real-world settings. 
 \subsection{Black Box Optimization}
@@ -117,11 +115,10 @@ Initialize population\;
 The general form of a GA begins with initializing the population. A selection of individuals with a random genetic representation is created. As illustrated in algorithm \ref{GA}, the algorithm enters its main loop; the loop is usually terminated when an iteration limit is reached, but other conditions are sometimes used that are specific to the problem. In the loop, the individuals are scored using the fitness function and the best are set aside for the next stage. The crossover operator is then applied to this group, and mutation operator on the resulting individuals. Then, it evaluates each individual and replaces the worst members of the population with the best new individuals. This process is repeated until the termination condition is reached; this is frequently an iteration limit. The individual with the highest fitness in the population is then returned.
 \subsection{Interactive Genetic Routing}
 
-\begin{figure}
+\begin{figure}[t]
 \centering
-\includegraphics[width=3in, keepaspectratio]{vrp2.jpg}
-\caption{To be example of selecting good/bad regions}
-\hfcomment{Needs to replaced w/own image.}
+\includegraphics[width=3.5in, keepaspectratio]{TAG.png}
+\caption{Example of selecting a good region}
 \label{fig:Humangraph}
 \end{figure}
 
@@ -142,7 +139,7 @@ Initialize population\;
 \caption{Interactive Genetic Algorithm\label{HUMGA}}
 \end{algorithm}
 
-The interactive genetic algorithm, algorithm \ref{HUMGA}, uses humans to find good sequences of destinations. It begins by initializing the population with a set of random individuals. The individuals are sets of routes in this case. While the iteration cap has not been reached, the algorithm first creates a new group of individuals using a standard crossover operator. Then, humans are used to tag good or bad sections of the routes in each individual as shown in figure \ref{fig:Humangraph}. A good section should be a segment of the route that is likely to be part of the most optimal route; a bad section is a poor segment of a route. The tags influence the mutation operator; a `good' section is unlikely to be modified, while a bad section is likely to be modified. This encourages preservation of good sections, while bad sections are removed. Conventional genetic algorithms are unable to gather or act on any information about the details of the individual aside from the overall fitness. The human involvement allows semi-intelligent decisions to be made about what parts of the individual should be changed. After the mutation operator, it evaluates each individual and replaces the worst members of the population with the best new individuals. The algorithm repeats until the iteration limit is reached and the individual with the best routes is returned. 
+The interactive genetic algorithm, algorithm \ref{HUMGA}, uses humans to find good sequences of destinations. It begins by initializing the population with a set of random individuals. The individuals are sets of routes in this case. While the iteration cap has not been reached, the algorithm first creates a new group of individuals using a standard crossover operator. Then, humans are used to tag good or bad sections of the routes in each individual as shown in Figure \ref{fig:Humangraph}. A good section should be a segment of the route that is likely to be part of the most optimal route; a bad section is a poor segment of a route. The tags influence the mutation operator; a `good' section is unlikely to be modified, while a bad section is likely to be modified. This encourages preservation of good sections, while bad sections are removed. Conventional genetic algorithms are unable to gather or act on any information about the details of the individual aside from the overall fitness. The human involvement allows semi-intelligent decisions to be made about what parts of the individual should be changed. After the mutation operator, it evaluates each individual and replaces the worst members of the population with the best new individuals. The algorithm repeats until the iteration limit is reached and the individual with the best routes is returned. 
 
 Ismail, Legras, and Coppin don't provide any experimental results in the paper, but note that humans are relatively slow. In practice, humans would be best used in very large scale routing problems where the added time isn't as much of a concern, and the tagging procedure may not be called every iteration. 
 
@@ -185,7 +182,7 @@ Initialize populations at $4\mu$ size\;
 \Return best feasible solution\;
 \end{algorithm}
 
-HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. Normally, infeasible (`incorrect') solutions are removed from the population, but in the HGSADC, they are kept in a separate subpopulation. The rationale is that this allows the algorithm to create a reserve of genetic diversity that can be used to get the population out of dead ends. Two random individuals are pulled from the combined population and the best of them is chosen to be a parent. The crossover operator is an applied to two parents, and the resulting child is educated.
+HGSDAC evolves infeasible and feasible solutions as two separate subpopulations. In most genetic algorithms, infeasible (`incorrect') solutions are removed from the population, but in the HGSADC, they are kept in a separate subpopulation. The rationale is that this allows the algorithm to create a reserve of genetic diversity that can be used to get the population out of dead ends. Two random individuals are pulled from the combined population and the best of them is chosen to be a parent. The crossover operator is an applied to two parents, and the resulting child is educated.
 
 The education process is a limited local search that seeks to improve the child; if the child is still infeasible after this procedure, the repair procedure may be called. $P_{rep}$ is the probability that the repair operator is called; repair is a very intensive local search. Finally, the child is placed into an appropriate subpopulation. If a subpopulation exceeds a maximum size, a survivor selection stage is triggered. A number of individuals is removed until the population returns to the nominal population size $\mu$. An individual that is most similar in terms of fitness score and route to another individual is called a clone. Survivor selection iteratively removes a clone until the population size is returned to $\mu$. The purpose of this style of population management is to maintain diversity. A diversification round may be started if there has been $It_{div}$ iterations without improvement. The best third of each population is retained, and adds $4\mu$ randomly created individuals to introduce new genetic material to the populations. 
 
@@ -194,24 +191,24 @@ Finally, every $It_{dec}$ iterations, the problem is decomposed into simplified 
 When the algorithm has finally hit the maximum time, the best solution from the feasible population is returned.
 
 \subsubsection{HGSADC Results} 
- The HGSADC is extremely good at solving VRPTW. Algorithms are tested by measuring how close to optimal is the best solution the algorithm produced on a number of test data sets. Out of 465 instances of the VRPTW, the HGSADC improved or found the previous best solution 397 times. It strictly improved the best known solution 233 times. For certain types of instances, the HGSADC is the best known algorithm in literature. On the remaining instances, the HGSADC generates solutions of comparable quality to an earlier algorithm by Nagata et al, and is less computationally efficient. However, it does not require as many hand tailored components for each instance, and performs better on problems with tighter time windows and shorter routes. The average standard deviation of the results is $0.2-0.4\%$, which shows that the algorithm is highly stable or consistent. 
+ The HGSADC is extremely good at solving VRPTW. Algorithms are tested by measuring how close to optimal is the best solution the algorithm produced on a number of test data sets. Out of 465 instances of the VRPTW, the HGSADC improved or found the previous best solution 397 times. It strictly improved the best known solution 233 times. For certain types of instances, the HGSADC is the best known algorithm in literature. On the remaining instances, the HGSADC generates solutions of comparable quality to an earlier algorithm by Nagata et al. \cite{Nagata:2010}, and is less computationally efficient. However, it does not require as many hand tailored components for each instance, and performs better on problems with tighter time windows and shorter routes. The average standard deviation of the results is $0.2-0.4\%$, which shows that the algorithm is highly stable or consistent. 
   
 \section{Agent-based models}
-Agents are simply small decision making elements that typically have some internal state and the ability to make decisions based on this internal state and potentially some . They typically represent and individual in a population. In optimization, a typical goal is for an agent to attempt to achieve some sort of optimal state. Agents (should) take actions to improve their state, and we describe this as the agent acting in its own interest. The function that returns the quantification of this local optimization is termed the local utility function, in contrast to the global, or system utility function. The global utility function describes how optimal the system is, which can be quite different from the local utility.
-We have chosen to discuss two major approaches in modeling individuals for the decentralized VRP. The first is agent-based models, the more traditional approach, and the second is probability collectives, a relatively recent approach that has a legacy in genetic algorithms.
+Agents are simply small decision making elements that typically have some internal state and the ability to make decisions based on this internal state and potentially some of the global state. They typically represent and individual in a population. In optimization, a typical goal is for an agent to attempt to achieve some sort of optimal state. Agents (should) take actions to improve their state, and we describe this as the agent acting in its own interest. The function that returns the quantification of this local optimization is termed the local utility function, in contrast to the global, or system utility function. The global utility function describes how optimal the system is, which can be quite different from the local utility. A situation that is locally optimal for an agent, yet globally non-optimal is show in Figure \ref{fig:DVRPgraph}.
+Here we discuss two major approaches in modeling individuals for the decentralized VRP. The first is a distributed reverse Vickrey auction, the more traditional approach which tends to avoid sharing information. Probability collectives, the second approach is a recent development from statistical physics and game theory that shares information. 
 
 \subsection{Distributed reverse Vickrey auctions}
 
-Saleh et al. \cite{Saleh:2012} were examining a version of the decentralized VRP where each depot and customer are treated as agents, as opposed to the more common version that treats vehicles as agents. The authors were interested in designing a system that encouraged near-optimal solutions while still being completely self-interested. They pursued this by building mechanisms that encouraged depots to offer an accurate estimate of minimum costs while still allowing the cost functions of each depot to remain private. 
+Saleh et al. \cite{Saleh:2012} examined a version of the decentralized VRP where each depot and customer are treated as agents, as opposed to the more common version that treats vehicles as agents. The authors were interested in designing a system that encouraged near-optimal solutions while still being completely self-interested. They pursued this by building mechanisms that encouraged depots to offer an accurate estimate of minimum costs while still allowing the cost functions of each depot to remain private. 
 
 The core feature of the algorithm is a reverse Vickrey auction, which is a sealed bid reverse auction where competitors offer a estimate of the cost of providing a service. The consumer selects the bidder that has the lowest cost, but pays them the amount of the second lowest bid. This encourages bidders to bid an honest estimate of cost; in the case that they win, they will always make a profit over their bid.
 
-The algorithm is played as a number of rounds. In each round, each depot $k$ submits a bid to each unassigned customer $j$ where $q_k^i \geq d_z$. \hfcomment{???} Bids consist of the estimated costs of servicing the customer. The customer chooses the lowest bid satisfying their demands and notifies $k^*$. The depot $k^*$ may receive responses from other customers. From the given responses, the depot chooses the customer $j^*$ with the lowest insertion cost (the customer whose addition to  the vehicle's route will cause the least change  in the routing cost). Once the customer is assigned to a depot, the customer $j^*$ submits payment to depot $k^*$. The payment is equal to the second lowest offer of the round. The completion of these steps is a single auction round, and many rounds may take place until every customer is assigned. Once the auction rounds are complete, the depot can apply other optimization strategies to its routes, or in the case of small routes, an exact solution.
+The algorithm is played as a number of rounds. In each round, each depot $k$ submits a bid to each unassigned customer $j$ where demand is less than or equal to remaining capacity. Bids consist of the estimated costs of servicing the customer. The customer chooses the lowest bid satisfying their demands and notifies $k^*$. The depot $k^*$ may receive responses from multiple customers. From the given responses, the depot chooses a single customer $j^*$ with the lowest insertion cost (the customer whose addition to  the vehicle's route will cause the least change  in the routing cost). Once the customer is assigned to a depot, the customer $j^*$ submits payment to depot $k^*$. The payment is equal to the second lowest offer of the round, or the lowest if only one bid is submitted. The completion of these steps is a single auction round, and many rounds may take place until every customer is assigned. Once the auction rounds are complete, the depot can apply other optimization strategies to its routes, or in the case of small routes, an exact solution.
 
-The Distributed reverse Vickrey auction is an effective technique of solving the decentralized VRP in a competitive environment where information is not shared. The authors note that the performance of the algorithm is highly dependent on the choice of lower level routing algorithms
+The distributed reverse Vickrey auction is an effective technique of solving the decentralized VRP in a competitive environment where information is not shared. The authors note that the performance of the algorithm is highly dependent on the choice of lower level routing algorithms, but overall, the DRVA is not as existing algorithms.
 \subsection{Probability Collectives}
 \label{ssec:PC}
-Probability Collectives (PC) takes a different approach to selecting a good solution. Instead of attempting to evolve an exemplary individual in a population like genetic algorithms, probability collectives selects optimal strategy for each agent \cite{Kulkarni:2008}. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. In contrast to the Distributed Reverse Vickrey Auction, the agents willingly and freely share information about their strategies, and the cost function is global.
+Probability Collectives (PC) take a different approach to selecting a good solution. Instead of attempting to evolve an exemplary individual in a population like genetic algorithms, probability collectives selects optimal strategy for each agent \cite{Kulkarni:2008}. A PC agent is a self-interested, learning individual that selects a strategy with the highest probability of optimizing the local and global objectives. In contrast to the Distributed Reverse Vickrey Auction, the agents willingly and freely share information about their strategies, and the cost function is global.
 
 \begin{figure}[h]
 \centering
@@ -220,19 +217,19 @@ Probability Collectives (PC) takes a different approach to selecting a good solu
 \label{fig:PCDiagram}
 \end{figure}
 
-The general form of PC in the context of VRP is as follows, along with the flowchart below. It is important to note this process is repeated for every agent in the system. Imagine you have $N$ agents, which can be depots or trucks, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often routes in RVRP applications \cite{Vasirani:2008}. $X$ is sampled from the interval $\psi_i$ with upper and lower bounds $\psi^u$ and $\psi^l$, which is a non-strict subset of all possible strategies. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. 
+The general form of PC in the context of VRP is as follows, along with the flowchart below. It is important to note this process is repeated for every agent in the system. Imagine you have $N$ agents, which can be depots or trucks, each having a set $X$ of strategies, of (potentially variable) length $m$. The strategies are most often routes in RVRP applications \cite{Vasirani:2008}. $X$ is sampled from the interval $\psi_i$ with upper and lower bounds $\psi^u$ and $\psi^l$, which is a non-strict subset of all possible strategies. A strategy for agent $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that strategy. The set is represented as $X_i=\{X_i^{[1]}, X_i^{[2]}, ..., X_i^{[m]}\}$. 
 
-A strategy for agent $i$ is denoted as $X_i^{[r]}$, where $r$ is an identifier for that strategy. For each agent, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that strategy is signified by $q(X_i^{[r]})$. The agents then selects a random action $r$ and a sampling of random actions from other agents. The resulting set, the `combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, represents a guess as to a potential future. Accordingly, for each of the strategy sets $Y_i^{[r]}$, compute the expected local utility - the measure of how good the solution is expected to be for the agent - using the following measure:
+ For each agent, assign a uniform probability, $1/m_i$ to all actions; the resulting probability of that strategy being selected is signified by $q(X_i^{[r]})$. The agents then selects a random action $r$ and a sampling of random actions from other agents. The resulting set, the `combined strategy set', $Y_i^{[r]}=\{X_1^{[?]}, ...,X_i^{[r]}, ...,X_N^{[?]}\}$, represents a guess as to a potential future. Accordingly, for each of the strategy sets $Y_i^{[r]}$, compute the expected local utility using the following measure:
 
 	\begin{equation}
-	\textit{Exp. Utility of Agent } i^r =q_i^r\prod_{(i)}{q(x_{(i)}^{[?]})\cdot G(Y_i^{[r]})}
+	\textit{Exp. Utility of Agent } i^r =q_i^r\prod_{(i)}{q(X_{(i)}^{[?]})\cdot G(Y_i^{[r]})}
 	\end{equation}
 	
-Where $q_i^r$ represents the probability of action $r$ for vehicle $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of strategies. $G$ is problem specific, but in the RVRP it could be a measure of unused capacity, unvisited destinations, maximum tour length or various combinations of measurements.
+Here $q_i^r$ represents the probability of action $r$ for vehicle $i$, $(i)$ is the set of all agents excluding $i$, and $G$ is the function that computes global utility for a given set of strategies. $G$ is problem specific, but in the RVRP it could be a measure of unused capacity, unvisited destinations, maximum tour length or various combinations of measurements.
 
 After computing the local utility, the next step is to update the probability of each action for all agents as follows:
 	\begin{equation}
-	q(X_i^{[r]})<-q(X_i^{[r]})-\alpha_{Step}\cdot q(X_i^{[r]})\cdot O_k^r
+	q(X_i^{[r]})\leftarrow q(X_i^{[r]})-\alpha_{step}\cdot q(X_i^{[r]})\cdot O_k^r
 	\end{equation}
 	
 where $k$ is the iteration, $\alpha_{step}$ is a constant that controls the amount of change each step.
@@ -240,41 +237,31 @@ where $k$ is the iteration, $\alpha_{step}$ is a constant that controls the amou
 	O_k^r = \dfrac{\textit{Contrib. of Agent }i}{T_k}+S_i(q)+ln(q(X_i^{[r]}))
 	\end{equation}
 	
-Here, temperature $T_k$ is a scalar that represethe nts the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_{(k+1)}=T_{k} - \alpha_{T}\cdot T_{k}$, and $T_0$ is the initial temperature. The initial value is unimportant - it must simply be``sufficently high" \hfcomment{cite{Book}}. $\alpha_{T}$ controls the rate of temperature change, and the values are often chosen experimentally.
+Here, temperature $T_k$ is a scalar that represethe nts the relative importance of the of the contribution of agent $i$ over time. It is computed as $T_{(k+1)}=T_{k} - \alpha_{T}\cdot T_{k}$, and $T_0$ is the initial temperature. The initial value is unimportant - it must simply be ``sufficently high" \cite{book}. $\alpha_{T}$ controls the rate of temperature change, and the values are often chosen experimentally.
 The contribution of Agent $i$ is then:
 	\begin{equation}
-	\textit{Contrib. Agent }i = \textit{Exp. Utility Agent }i^r - \textit{Exp. Global Utility}
-	\end{equation}h=3in, keepaspectratio]{utility.png}
+	\textit{Contrib. Agent }i = \textit{Utility Agent }i^r - \textit{Global Utility}
+	\end{equation}
 
 The $S_i(q)$ term is the entropy of the combined strategy set. In information theory, Entropy is the average value of the information in a message. Probability collectives treats the combined strategy set as a message in order to find the set with the highest Entropy. As it increases, the probability distribution more clearly distinguishes the contribution of each strategy toward optimizing the expected global utility. When it reaches a maximum, it represents the set that has the most information about the probabilities of each strategy. Entropy is computed by:
 	\begin{equation}
 	S_i(q)=-\sum_{r=1}^{m_i}q(X_i^{[r]})\cdot ln(q(X_i^{[r]})
 	\end{equation}
 	
-Which is the sum of every strategy $q(X_i^{[r]})$ times the natural logarithm of itself. Here, the algorithm checks to see if it will continue updating the global utility or it will terminate. If the probabilities of the combined strategy set have not changed by a constant amount, $\sigma$, or if the number of iterations ($k$) have reached a maximum, the strategy with the highest probabilities will be returned. Otherwise, the algorithm will continue by narrowing and re-centering the sampling interval $\psi_i$. If a strategy is represented as a numeric, linear value, the interval update is 
-	\begin{equation}
-	\psi_{new} = [(X_i^{[best]}-\lambda|\psi_i^u - \psi_i^l|),(X_i^{[best]}+\lambda|\psi_i^u - \psi_i^l|)]
-	\end{equation}the 
-
-$\lambda$ is a constant between 0 and 1 that controls how quickly the sampling interval narrows. After $\psi$ is narrowed then a new strategy set is sampled, and the process of refining those probabilities is started anew. Once every agent has returned a final strategy, each agent can then pursue those strategies.
+which is the sum of every strategy $q(X_i^{[r]})$ times the natural logarithm of itself. At this point, the algorithm checks to see if it will continue updating the global utility or it will terminate. If the probabilities of the combined strategy set have not changed by a constant amount, $\sigma$, or if the number of iterations ($k$) have reached a maximum, the strategy with the highest probabilities will be returned. Otherwise, the algorithm will continue by narrowing and re-centering the sampling interval $\psi_i$. The exact process for adjusting the sampling interval can be found in Kulkarni et al.\cite{book}.After $\psi$ is narrowed then a new strategy set is sampled, and the process of refining those probabilities is started anew. Once every agent has returned a final strategy, each agent can then pursue those strategies.
 
 To summarize, if a strategy $r$ creates a larger contribution to the optimization of the objective than other strategies, the probability associated with $r$ increases by a larger amount. This entire process is repeated until the probability distribution converges or the maximum number of iterations are completed. 
 
+\subsubsection{Probability Collectives Results}
+There are no specific results comparing Probability Collectives to other DRVP-solving algorithms. Probability Collectives do have some noteworthy trends; they outperform GA in avoiding dead end solutions and in long term optimization \cite{book}. Vasirani and Ossowski \cite{Vasirani:2008} do show that the choice of global utility estimate has a profound effect on how well the algorithm performs. Global utility estimates that do not take the utility of the agent invoking the function are preferred over functions that take all agents into consideration.
 
 \section{Conclusion}
 \label{conclusion}
-The vehicle routing problem is an important problem in real world logistics, and as in the field of optimization. The most performant algorithm in RVRP is hybrid genetic search with advanced diversity control, which is dominant within the scope of VRPTW. Adding human intuition or systems emulating it to optimization systems may be important in improving routing systems. In decentralized RVRP variants, the specific constraints of each problem limit the comparability of each algorithm. the distributed reverse vickrey auction is conservative with the amount of information available to each individual; probability collectives The distributed reverse vickrey algorithm is within several percent of the best known solutions. Probability collectives is not as good in a straightforward sense, but it handles noisy and imperfect agent behaviors better than other distributed systems. 
- \hfcomment{(...)}
-\section{Acknowledgements}
-I'd like to thank caffeine, water, and stress; the raw elements that formed this paper. Harris L. Mayer's 1964 paper, ``Opacity Calculations, Past and Future" was a wonderful source of literary inspiration. Finally, this paper owes a great deal to Nic McPhee and Kirbie Dramdahl FIXME for their thoughtful reviews.
+The vehicle routing problem is an important problem in real world logistics, and as in the field of optimization. The most performant algorithm in RVRP is HGSADC, which is dominant within the scope of VRPTW. Adding human intuition or systems emulating it to optimization systems may be important in improving routing systems. In decentralized RVRP variants, the specific constraints of each problem limit the comparability of each algorithm. The distributed reverse Vickrey auction is conservative with the amount of information available to each individual; probability collectives The distributed reverse Vickrey algorithm is within several percent of the best known solutions. Probability collectives is not as good in a straightforward sense, but it handles noisy and imperfect agent behaviors better than other distributed systems. Decentralized means of solving the VRP are not as well-developed as centralized methods, but they show good promise for solving near-future routing problems.
+
+\section*{Acknowledgements}
+I'd like to thank caffeine, water, and stress: the raw elements that formed this paper. Harris L. Mayer's 1964 paper, ``Opacity Calculations, Past and Future" was a wonderful source of literary inspiration. Finally, this paper owes a great deal to Nic McPhee and Kirbie Dramdahl for their thoughtful feedback and advice.
 \bibliographystyle{abbrv}
-\bibliography{annotated_bibliography}  
-
-% You must have a proper ".bib" file
-%  and remember to run:
-% latex bibtex latex latex
-% to resolve all references
-
-\hfcomment{Need to make book citation}
+\bibliography{annotated_bibliography}
 
 \end{document}
